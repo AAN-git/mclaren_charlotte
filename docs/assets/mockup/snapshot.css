@@ -5,3 +5,6 @@
 .ddtSlider .slick-slide { display: none !important; width: 100% !important; float: none !important; }
 .ddtSlider .slick-slide[data-slick-index="0"] { display: block !important; }
 .ddtSlider .slick-slide img { width: 100%; height: auto; }
+/* shuffle.js laid the photo grid out with absolute positions; let the
+   bootstrap columns flow it instead */
+.photos .photo:nth-child(odd) { clear: left; }

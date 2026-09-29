@@ -66,9 +66,26 @@ function popover(base) {
   };
 }
 
-// ---- current pages: switch only ----------------------------------------------
+// A mockup to sit and think over, not the full inventory: 20 cards (five even
+// rows of four) and five photos (the slider's first + two rows of the grid).
+const SRP_CARDS = 20;
+const VDP_GRID = [1, 2, 3, 4]; // grid index 0 repeats the slider photo
+
+function trim($, page) {
+  $('.photos, .photos .photo').removeAttr('style'); // drop shuffle.js's frozen absolute layout
+  if ($('body').attr('data-trimmed')) return;
+  $('body').attr('data-trimmed', '1');
+  if (page === 'srp') $('.car-col').slice(SRP_CARDS).remove();
+  if (page === 'vdp') {
+    $('.ddtSlider .slick-slide').filter((_, el) => $(el).attr('data-slick-index') !== '0').remove();
+    $('.photos .photo').filter((i) => !VDP_GRID.includes(i)).remove();
+  }
+}
+
+// ---- current pages: trim + switch ---------------------------------------------
 for (const page of ['srp', 'vdp']) {
   const $ = await load(`current-${page}.html`);
+  trim($, page);
   chrome($, page, false);
   await fs.writeFile(`docs/current-${page}.html`, $.html());
 }
