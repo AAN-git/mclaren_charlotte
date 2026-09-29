@@ -8,13 +8,15 @@
 import fs from 'node:fs/promises';
 import * as cheerio from 'cheerio';
 
-// Figures from Jacqueline Chen's request, 23 Sep 2026. Exotic Care has no figure yet.
+// Figures from Jacqueline Chen's request, 23 Sep 2026. Exotic Care ($xxx in the request)
+// and the disclaimer wording are simulated for the mockup and flagged on the start page.
+const DISCLAIMER = 'Price includes the dealer documentation fee ($2,805) and electronic filing fee ($245). Excludes taxes, tags, title and registration. Optional products are not included and are available at additional cost.';
 const FEES = [
   { label: 'Doc fee', amount: 2805 },
   { label: 'Electronic filing fee', amount: 245 },
 ];
 const OPTIONAL = [
-  { label: 'Exotic Care', amount: null },
+  { label: 'Exotic Care', amount: 1995 }, // SAMPLE figure for the mockup — dealer to confirm
   { label: 'Nano windshield', amount: 500 },
 ];
 const FEE_TOTAL = FEES.reduce((s, f) => s + f.amount, 0);
@@ -74,6 +76,7 @@ function popover() {
     <ul class="fx-rows">
       ${OPTIONAL.map((o) => row(o.label, o.amount == null ? '<span class="fx-tbd">Price TBD</span>' : usd(o.amount))).join('\n      ')}
     </ul>
+    <p class="fx-legal">${DISCLAIMER}</p>
   </div>
 </aside>`,
   };

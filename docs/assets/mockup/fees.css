@@ -155,6 +155,15 @@ body.inventory .inventory-section .car-col .vehicle .details .miniInf.fx-srp > .
   color: var(--fx-ink);
 }
 
+.fx-legal {
+  margin: var(--fx-s3) 0 0;
+  padding-top: var(--fx-s3);
+  border-top: 1px solid var(--fx-rule);
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--fx-muted);
+}
+
 /* A figure the dealer has not supplied yet — visibly a placeholder, never a guess. */
 .fx-tbd {
   display: inline-block;
