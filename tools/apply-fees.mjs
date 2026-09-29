@@ -34,7 +34,7 @@ function chrome($, page, proposed) {
   $('.car-col a').not('.compare').attr('href', vdp);
   $('.car-col .item').attr('onclick', `location.href='${vdp}'`).css('cursor', 'pointer');
   $('.mk-switch, link[href*="assets/mockup/"], script[src*="assets/mockup/"]').remove();
-  $('head').append('<link rel="stylesheet" href="assets/mockup/snapshot.css">\n<link rel="stylesheet" href="assets/mockup/fees.css">\n');
+  $('head').append('<link rel="stylesheet" href="assets/mockup/snapshot.css">\n<link rel="stylesheet" href="assets/mockup/brand-type.css">\n<link rel="stylesheet" href="assets/mockup/fees.css">\n');
   $('body').append(`
 <nav class="mk-switch" aria-label="Mockup view">
   <span class="mk-switch__tag">Mockup</span>

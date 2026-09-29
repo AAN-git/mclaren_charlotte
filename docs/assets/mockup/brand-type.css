@@ -1,0 +1,101 @@
+/* Whole-mockup typeface: McLaren Sans, the brand's current type.
+   Every family the dealer theme names is re-declared here to point at McLaren Sans,
+   so each element keeps its role — the condensed display faces become McLaren Sans
+   Display, the text faces McLaren Sans Text — without touching the theme's CSS.
+   Loaded after the theme's stylesheets, so these @font-face rules win.
+   Knockout is a condensed face and McLaren Sans has no condensed cut, so the
+   Knockout aliases use McLaren Sans Text Bold (narrower than Display) scaled to
+   80%, which keeps card rows, titles and buttons on the lines the layout expects.
+   The main nav cannot hold nine uppercase items in a wide face at a readable
+   size, so it switches to title case at 14px. */
+
+@font-face { font-family: "Knockout-HTF30-JuniorWelterwt"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: normal; font-style: normal; size-adjust: 80%; font-display: swap; }
+@font-face { font-family: "Knockout-HTF29-JuniorLiteweight"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: normal; font-style: normal; size-adjust: 80%; font-display: swap; }
+@font-face { font-family: "Knockout-HTF28-JuniorFeatherwt"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: normal; font-style: normal; size-adjust: 80%; font-display: swap; }
+@font-face { font-family: "NewsGothicBT-BoldCondensed"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: normal; font-style: normal; size-adjust: 80%; font-display: swap; }
+@font-face { font-family: "NewsGothicBT-RomanCondensed"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: normal; font-style: normal; size-adjust: 80%; font-display: swap; }
+@font-face { font-family: "Arial-Black"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: normal; font-style: normal; size-adjust: 80%; font-display: swap; }
+@font-face { font-family: "GillSans"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "GillSans"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "GillSans"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Gill Sans"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Gill Sans"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Gill Sans"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "GillSans-Light"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "GillSans-Light"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "GillSans-Light"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "GillSansMT"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "GillSansMT"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "GillSansMT"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "SohoGothicPro-Light"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "SohoGothicPro-Light"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "SohoGothicPro-Light"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Seravek"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Seravek"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Seravek"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Seravek-Light"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Seravek-Light"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Seravek-Light"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Arial"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Arial"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Arial"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Helvetica"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Helvetica"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Helvetica"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "helvetica"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "helvetica"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "helvetica"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Helvetica Neue"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Helvetica Neue"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Helvetica Neue"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "HelveticaNeue"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "HelveticaNeue"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "HelveticaNeue"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Avenir-Roman"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Avenir-Roman"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Avenir-Roman"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Avenir"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Avenir"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Avenir"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Oswald"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Oswald"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Oswald"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "SourceSansPro-Regular"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "SourceSansPro-Regular"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "SourceSansPro-Regular"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Roboto"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Roboto"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Roboto"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Georgia"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Georgia"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Georgia"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Times"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Times"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Times"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Times New Roman"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 100 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Times New Roman"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 600 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Times New Roman"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "GillSans-SemiBold"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "GillSans-Semibold"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Seravek-Medium"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "SohoGothicW01-Medium"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Helvetica-Bold"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Roboto-Medium"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "GillSans-Italic"; src: url("fonts/McLarenSansText-Italic.woff") format("woff"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Knockout-HTF30-JuniorWelterwt"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: bold; font-style: normal; size-adjust: 80%; font-display: swap; }
+@font-face { font-family: "Knockout-HTF29-JuniorLiteweight"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: bold; font-style: normal; size-adjust: 80%; font-display: swap; }
+@font-face { font-family: "Knockout-HTF28-JuniorFeatherwt"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: bold; font-style: normal; size-adjust: 80%; font-display: swap; }
+@font-face { font-family: "NewsGothicBT-BoldCondensed"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: bold; font-style: normal; size-adjust: 80%; font-display: swap; }
+@font-face { font-family: "NewsGothicBT-RomanCondensed"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: bold; font-style: normal; size-adjust: 80%; font-display: swap; }
+@font-face { font-family: "Arial-Black"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: bold; font-style: normal; size-adjust: 80%; font-display: swap; }
+
+/* main nav: title case, 14px, slightly tighter item padding so nine items fit */
+header .wrap .navigation .menuBox ul > li > a {
+  font-family: "McLaren Sans Text", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0;
+  padding-left: 3px;
+  padding-right: 3px;
+}

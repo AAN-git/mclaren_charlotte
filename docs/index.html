@@ -6,16 +6,9 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Dealer Fee Mockup</title>
 <style>
-  @font-face {
-    font-family: "Knockout-HTF30-JuniorWelterwt";
-    src: url("assets/fonts/Knockout-HTF30-JuniorWelterwt-4f746410.woff") format("woff");
-    font-display: swap;
-  }
-  @font-face {
-    font-family: "GillSans";
-    src: url("assets/fonts/GillSansMT-cff6d895.woff") format("woff");
-    font-display: swap;
-  }
+  @font-face { font-family: "McLaren Sans Text"; src: url("assets/mockup/fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "McLaren Sans Text"; src: url("assets/mockup/fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 700; font-display: swap; }
+  @font-face { font-family: "McLaren Sans Display"; src: url("assets/mockup/fonts/McLarenSansDisplay-Bold.woff") format("woff"); font-weight: 700; font-display: swap; }
   :root {
     --bg: #242424;
     --panel: #323232;
@@ -30,23 +23,19 @@
     margin: 0;
     background: var(--bg);
     color: var(--text);
-    font-family: "GillSans", "Gill Sans", sans-serif;
-    font-size: 17px;
+    font-family: "McLaren Sans Text", "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
     line-height: 1.55;
   }
   .wrap { max-width: 880px; margin: 0 auto; padding: var(--s8) var(--s4); }
-  .kicker, h1, h2, .card__title, .card a {
-    font-family: "Knockout-HTF30-JuniorWelterwt", sans-serif;
-    font-weight: 400;
-    text-transform: uppercase;
-  }
-  .kicker { margin: 0 0 var(--s3); font-size: 16px; letter-spacing: .04em; color: var(--muted); }
-  h1 { margin: 0 0 var(--s4); font-size: clamp(36px, 6vw, 56px); line-height: 1; color: var(--accent); }
+  h1, h2, .card__title { font-family: "McLaren Sans Display", "Helvetica Neue", Arial, sans-serif; font-weight: 700; }
+  .kicker { margin: 0 0 var(--s3); font-size: 14px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  h1 { margin: 0 0 var(--s4); font-size: clamp(32px, 5vw, 48px); line-height: 1.05; color: var(--accent); }
   .lede { margin: 0; max-width: 60ch; color: var(--muted); }
 
   .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--s4); margin: var(--s7) 0; }
   .card { padding: var(--s5); background: var(--panel); border-radius: 4px; }
-  .card__title { margin: 0 0 var(--s2); font-size: 24px; line-height: 1.1; }
+  .card__title { margin: 0 0 var(--s2); font-size: 22px; line-height: 1.15; }
   .card p { margin: 0 0 var(--s5); font-size: 15px; color: var(--muted); }
   .card__links { display: flex; gap: var(--s3); flex-wrap: wrap; }
   .card a {
@@ -54,7 +43,8 @@
     padding: var(--s3) var(--s5);
     border: 1px solid var(--accent);
     border-radius: 999px;
-    font-size: 17px;
+    font-size: 15px;
+    font-weight: 700;
     line-height: 1;
     color: var(--accent);
     text-decoration: none;
@@ -62,12 +52,12 @@
   .card a.primary { background: var(--accent); color: #151514; }
   .card a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-  h2 { margin: var(--s7) 0 var(--s4); font-size: 26px; line-height: 1.1; }
+  h2 { margin: var(--s7) 0 var(--s4); font-size: 24px; line-height: 1.15; }
   ul, ol { margin: 0; padding-left: 1.2em; }
   li { margin-bottom: var(--s3); max-width: 68ch; }
   li::marker { color: var(--accent); }
   ol li { padding-left: var(--s2); }
-  strong { font-weight: 400; color: var(--text); font-family: "Knockout-HTF30-JuniorWelterwt", sans-serif; text-transform: uppercase; letter-spacing: .02em; }
+  strong { font-weight: 700; color: var(--text); }
   .muted { color: var(--muted); }
   .foot { margin-top: var(--s7); padding-top: var(--s5); border-top: 1px solid var(--rule); font-size: 15px; color: var(--muted); }
 </style>
@@ -101,7 +91,7 @@
   <ul>
     <li><strong>Price</strong> — the doc fee ($2,805) and the electronic filing fee ($245) are added to the listed price everywhere it appears: search results, the vehicle page header and the Details table.</li>
     <li><strong>Disclaimer</strong> — on both pages, “Dealer fees included” opens a small panel: “Dealer fees included in price”, the doc fee and electronic filing fee, then the optional products listed separately as “Optional, not included”.</li>
-    <li><strong>Wordmark and type</strong> — the proposed pages use the new McLaren Charlotte wordmark, and the disclaimer is set in McLaren Sans.</li>
+    <li><strong>Wordmark and type</strong> — the whole mockup, Current and Proposed alike, is set in McLaren Sans, so Current differs from Proposed only in the fees and the new McLaren Charlotte wordmark.</li>
     <li><strong>How it opens</strong> — on a computer it opens on hover and stays open on click. On a phone it opens on tap, because phones have no hover.</li>
   </ul>
 
