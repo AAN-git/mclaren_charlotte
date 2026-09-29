@@ -40,13 +40,7 @@ function chrome($, page, proposed) {
   $('.car-col .item').attr('onclick', `location.href='${vdp}'`).css('cursor', 'pointer');
   $('.mk-switch, link[href*="assets/mockup/"], script[src*="assets/mockup/"]').remove();
   $('head').append(`<link rel="stylesheet" href="assets/mockup/snapshot.css?v=${V}">\n<link rel="stylesheet" href="assets/mockup/brand-type.css?v=${V}">\n<link rel="stylesheet" href="assets/mockup/fees.css?v=${V}">\n`);
-  $('body').append(`
-<nav class="mk-switch" aria-label="Mockup view">
-  <span class="mk-switch__tag">Mockup</span>
-  <a href="current-${page}.html"${proposed ? '' : ' aria-current="page"'}>Current</a>
-  <a href="${page}.html"${proposed ? ' aria-current="page"' : ''}>Proposed</a>
-</nav>
-<script src="assets/mockup/switch.js?v=${V}"></script>\n`);
+  // no Current/Proposed switch: the links go to the dealer as plain pages
   if (proposed) {
     $('body').append(`<script src="assets/mockup/fees.js?v=${V}"></script>\n`);
     $('.logoBox .logo img[src*="logo_update"]').attr('src', 'assets/mockup/logo-new.svg').addClass('mk-logo-new');
