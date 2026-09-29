@@ -1,27 +1,33 @@
 /* Dealer-fee disclosure — the one component this mockup adds to the live site.
-   Written against the site's own tokens so it can be lifted into sass.php as-is:
-   Knockout-HTF30 for data, GillSans for prose, #ff9f2e accent, #636363 greys. */
+   Set in McLaren Sans (the brand's current typeface) so it reads as its own
+   voice rather than borrowing the site's Knockout headline style. */
+
+@font-face { font-family: "McLaren Sans Text"; src: url("fonts/McLarenSansText-Regular.woff") format("woff"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "McLaren Sans Text"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "McLaren Sans Display"; src: url("fonts/McLarenSansDisplay-Bold.woff") format("woff"); font-weight: 700; font-display: swap; }
 
 :root {
-  --fx-accent: #ff9f2e;          /* site h1 / active-nav orange */
-  --fx-ink: #1e1e1e;             /* popover text, 16.7:1 on white */
-  --fx-muted: #595959;           /* popover labels, 7:1 on white */
-  --fx-rule: #e2e2e2;
-  --fx-on-dark-muted: #b4b4b4;   /* SRP note on the #323232 card, 6.2:1 */
-  --fx-surface: #fff;
-  --fx-radius: 4px;
+  --fx-text: "McLaren Sans Text", "Helvetica Neue", Arial, sans-serif;
+  --fx-display: "McLaren Sans Display", "Helvetica Neue", Arial, sans-serif;
+  --fx-accent: #ff9f2e;          /* site accent orange */
+  --fx-ink: #1e1e1e;             /* 16.7:1 on white */
+  --fx-muted: #4a4a4a;           /* 8.9:1 on white */
+  --fx-on-dark: #d6d6d6;         /* trigger on #242424 / #323232, ≥10:1 */
+  --fx-rule: #e6e6e6;
+  --fx-bar: #f3f3f3;
   --fx-s1: 4px;
   --fx-s2: 8px;
   --fx-s3: 12px;
   --fx-s4: 16px;
   --fx-s5: 24px;
+  --fx-radius: 6px;
   --fx-dur: 160ms;
   --fx-ease: cubic-bezier(.2, .7, .2, 1);
 }
 
-/* ---- trigger --------------------------------------------------------------- */
 .fx { position: relative; }
 
+/* ---- trigger --------------------------------------------------------------- */
 .fx-trigger {
   display: inline-flex;
   align-items: center;
@@ -30,52 +36,54 @@
   padding: var(--fx-s1) 0;
   border: 0;
   background: none;
-  font-family: "Knockout-HTF30-JuniorWelterwt", sans-serif;
-  font-size: 16px;
-  line-height: 1;
-  text-transform: uppercase;
-  color: var(--fx-accent);
+  font-family: var(--fx-text);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--fx-on-dark);
   cursor: pointer;
 }
-.fx-trigger .fa { font-size: 15px; }
-.fx-trigger__label {
-  text-decoration: underline dotted;
-  text-underline-offset: 3px;
-}
-.fx-trigger:hover .fx-trigger__label,
-.fx-trigger[aria-expanded="true"] .fx-trigger__label { text-decoration-style: solid; }
-.fx-trigger:focus-visible { outline: 2px solid var(--fx-accent); outline-offset: 3px; }
+.fx-trigger:hover,
+.fx-trigger[aria-expanded="true"] { color: #fff; }
+.fx-trigger:focus-visible { outline: 2px solid var(--fx-accent); outline-offset: 3px; border-radius: 2px; }
+.fx-i { width: 15px; height: 15px; color: var(--fx-accent); flex: none; }
 
-/* VDP header: price and its note stack as one unit inside the existing inline row */
+/* VDP header: price and its trigger stack as one unit inside the existing inline row */
 .actionsHead > .priceBox.fx { vertical-align: top; }
-.actionsHead > .priceBox.fx h2 { margin: 0 0 var(--fx-s2); }
-
+.actionsHead > .priceBox.fx h2 { margin: 0 0 var(--fx-s1); }
 @media (max-width: 767px) {
-  /* the header row wraps on phones: give price + note their own line */
   .actionsHead > .priceBox.fx { display: block; margin-bottom: var(--fx-s3); }
   .actionsHead > .priceBox.fx + div { margin-left: 0; }
 }
 
-/* VDP details table: note sits under the value, keeps the row's 18px Knockout voice */
-.tableBox .fx-cell .fx-trigger { display: flex; padding: 0 0 var(--fx-s3); margin-top: -6px; }
+/* SRP card: the trigger gets its own line under the Price / Year / Miles row */
+.miniInf .fx-srp-row { clear: both; margin: 0; padding-top: var(--fx-s2); }
+/* the site right-aligns the row's :last-child, which is now the popover */
+body.inventory .inventory-section .car-col .vehicle .details .miniInf.fx-srp > .mileage { text-align: right; }
 
 /* ---- popover ---------------------------------------------------------------- */
 /* Out of flow on purpose: opening it never moves the page under the pointer. */
 .fx-pop {
   position: absolute;
-  z-index: 60;
+  z-index: 1000; /* above the card's own action icons */
   top: calc(100% + var(--fx-s2));
   left: 0;
-  width: 340px;
+  width: 320px;
   max-width: calc(100vw - 32px);
-  padding: var(--fx-s5);
-  background: var(--fx-surface);
-  border: 1px solid #cfcfcf;
+  background: #fff;
+  border: 1px solid #d4d4d4;
   border-radius: var(--fx-radius);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, .45);
-  color: var(--fx-ink);
-  text-align: left;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .35);
+  font-family: var(--fx-text);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
   text-transform: none;
+  text-align: left;
+  color: var(--fx-ink);
   opacity: 0;
   transform: translateY(-4px);
   visibility: hidden;
@@ -87,47 +95,45 @@
   visibility: visible;
   transition: opacity var(--fx-dur) var(--fx-ease), transform var(--fx-dur) var(--fx-ease), visibility 0s;
 }
-.fx-pop::before { /* caret, points at the trigger */
-  content: "";
-  position: absolute;
-  top: -7px;
-  left: var(--fx-s5);
-  width: 12px;
-  height: 12px;
-  background: var(--fx-surface);
-  border-top: 1px solid #cfcfcf;
-  border-left: 1px solid #cfcfcf;
-  transform: rotate(45deg);
-}
+/* SRP: span the card's inner width so the panel never runs off the grid */
+.fx-srp > .fx-pop { left: var(--fx-s4); right: var(--fx-s4); width: auto; top: calc(100% - var(--fx-s2)); }
 
-.fx-pop__head {
-  margin: 0 0 var(--fx-s4);
-  font-family: "Knockout-HTF30-JuniorWelterwt", sans-serif;
-  font-size: 20px;
-  line-height: 1.1;
-  text-transform: uppercase;
-  color: var(--fx-ink);
-}
-
-.fx-group + .fx-group { margin-top: var(--fx-s5); }
-.fx-group__title {
+.fx-pop__bar {
   display: flex;
   align-items: center;
-  gap: var(--fx-s2);
-  margin: 0 0 var(--fx-s2);
-  font-family: "Knockout-HTF30-JuniorWelterwt", sans-serif;
-  font-size: 14px;
-  line-height: 1;
-  letter-spacing: .04em;
-  text-transform: uppercase;
+  justify-content: space-between;
+  padding: var(--fx-s2) var(--fx-s2) var(--fx-s2) var(--fx-s4);
+  background: var(--fx-bar);
+  border-bottom: 1px solid var(--fx-rule);
+  border-radius: var(--fx-radius) var(--fx-radius) 0 0;
+}
+.fx-pop__title {
+  margin: 0;
+  font-family: var(--fx-display);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--fx-ink);
+}
+.fx-close {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
   color: var(--fx-muted);
+  cursor: pointer;
 }
-.fx-group__title::before {
-  content: "";
-  width: 12px;
-  height: 2px;
-  background: var(--fx-accent);
-}
+.fx-close svg { width: 14px; height: 14px; }
+.fx-close:hover { background: #e6e6e6; color: var(--fx-ink); }
+.fx-close:focus-visible { outline: 2px solid var(--fx-accent); outline-offset: 0; }
+
+.fx-pop__body { padding: var(--fx-s4); }
+.fx-lead { margin: 0 0 var(--fx-s3); font-weight: 700; }
 
 .fx-rows { margin: 0; padding: 0; list-style: none; }
 .fx-row {
@@ -135,76 +141,45 @@
   justify-content: space-between;
   align-items: baseline;
   gap: var(--fx-s4);
-  padding: var(--fx-s2) 0;
-  border-bottom: 1px solid var(--fx-rule);
-  font-family: "Knockout-HTF30-JuniorWelterwt", sans-serif;
-  font-size: 17px;
-  line-height: 1.2;
-  text-transform: uppercase;
+  padding: var(--fx-s1) 0;
+  color: var(--fx-muted);
 }
-.fx-row:last-child { border-bottom: 0; }
-.fx-row__label { color: var(--fx-muted); }
 .fx-row__value { color: var(--fx-ink); white-space: nowrap; font-variant-numeric: tabular-nums; }
 
-.fx-row--total {
-  margin-top: var(--fx-s1);
+.fx-sub {
+  margin: var(--fx-s3) 0 var(--fx-s1);
   padding-top: var(--fx-s3);
-  border-top: 2px solid var(--fx-ink);
-  font-size: 20px;
+  border-top: 1px solid var(--fx-rule);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--fx-ink);
 }
-.fx-row--total .fx-row__label,
-.fx-row--total .fx-row__value { color: var(--fx-ink); }
 
 /* A figure the dealer has not supplied yet — visibly a placeholder, never a guess. */
 .fx-tbd {
   display: inline-block;
-  padding: 2px var(--fx-s2);
+  padding: 0 var(--fx-s2);
   border: 1px dashed #8a8a8a;
-  border-radius: 2px;
+  border-radius: 3px;
   font-size: 14px;
   color: var(--fx-muted);
-}
-
-.fx-note {
-  margin: var(--fx-s4) 0 0;
-  font-family: "GillSans", sans-serif;
-  font-size: 14px;
-  line-height: 1.45;
-  color: var(--fx-muted);
-}
-.fx-note--placeholder {
-  padding: var(--fx-s2) var(--fx-s3);
-  border: 1px dashed #8a8a8a;
-  border-radius: 2px;
-}
-
-.fx-close {
-  position: absolute;
-  top: var(--fx-s3);
-  right: var(--fx-s3);
-  width: 32px;
-  height: 32px;
-  border: 0;
-  background: none;
-  font-family: "GillSans", sans-serif;
-  font-size: 24px;
-  line-height: 1;
-  color: var(--fx-muted);
-  cursor: pointer;
-}
-.fx-close:focus-visible { outline: 2px solid var(--fx-accent); outline-offset: 0; }
-
-/* ---- SRP card --------------------------------------------------------------- */
-.miniInf .price .fx-srp-note {
-  display: block;
-  margin-top: var(--fx-s1);
-  font-size: 14px;
-  line-height: 1.1;
-  color: var(--fx-on-dark-muted);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .fx-pop, .fx.is-open .fx-pop { transition: none; transform: none; }
+}
+
+/* ---- new wordmark (proposed pages) ------------------------------------------ */
+/* Same 294×64 box as the old PNG, whose artwork carried ~24px of built-in margin:
+   the header's layout was tuned to that box, so the new mark sits inside it. */
+.logoBox .logo img.mk-logo-new {
+  box-sizing: border-box;
+  width: 294px;
+  max-width: none;
+  height: 64px;
+  padding: 6px 24px;
+  object-fit: contain;
+  object-position: left center;
 }
 
 /* ---- mockup chrome (not part of the proposed component) ---------------------- */
@@ -222,10 +197,9 @@
   border: 1px solid #444;
   border-radius: 999px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, .4);
-  font-family: "Knockout-HTF30-JuniorWelterwt", sans-serif;
-  font-size: 15px;
+  font-family: var(--fx-text);
+  font-size: 14px;
   line-height: 1;
-  text-transform: uppercase;
 }
 .mk-switch__tag { padding: 0 var(--fx-s2) 0 var(--fx-s3); color: #9a9a9a; }
 .mk-switch a {
@@ -236,4 +210,5 @@
 }
 .mk-switch a[aria-current="page"] { background: var(--fx-accent); color: #151514; }
 .mk-switch a:focus-visible { outline: 2px solid var(--fx-accent); outline-offset: 2px; }
+
 body { padding-bottom: 72px; } /* keeps the switch off the last line of the footer */

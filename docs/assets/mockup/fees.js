@@ -14,30 +14,37 @@
 
   all.forEach(function (box) {
     var btn = box.querySelector('.fx-trigger');
-    var close = box.querySelector('.fx-close');
+    var pop = box.querySelector('.fx-pop');
     var timer;
+
+    // On the SRP the whole card links to the vehicle page; the disclosure must not.
+    [btn, pop].forEach(function (el) {
+      el.addEventListener('click', function (e) { e.stopPropagation(); });
+    });
 
     btn.addEventListener('click', function (e) {
       e.preventDefault();
       var pinned = box.dataset.pinned === '1';
       set(box, !pinned, !pinned);
     });
-    close.addEventListener('click', function () { set(box, false); btn.focus(); });
+    box.querySelector('.fx-close').addEventListener('click', function () { set(box, false); btn.focus(); });
 
     if (fine) {
-      box.addEventListener('mouseenter', function () {
-        clearTimeout(timer);
-        if (!box.classList.contains('is-open')) set(box, true, false);
-      });
-      box.addEventListener('mouseleave', function () {
-        if (box.dataset.pinned === '1') return;
-        timer = setTimeout(function () { set(box, false); }, 180);
+      [btn, pop].forEach(function (el) {
+        el.addEventListener('mouseenter', function () {
+          clearTimeout(timer);
+          if (!box.classList.contains('is-open')) set(box, true, false);
+        });
+        el.addEventListener('mouseleave', function () {
+          if (box.dataset.pinned === '1') return;
+          timer = setTimeout(function () { set(box, false); }, 180);
+        });
       });
     }
   });
 
-  document.addEventListener('click', function (e) {
-    all.forEach(function (box) { if (!box.contains(e.target)) set(box, false); });
+  document.addEventListener('click', function () {
+    all.forEach(function (box) { if (box.classList.contains('is-open')) set(box, false); });
   });
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;

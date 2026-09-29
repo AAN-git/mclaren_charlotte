@@ -1,6 +1,6 @@
 // Builds the proposed pages from the captured current ones:
-//   docs/current-srp.html -> docs/srp.html   (fee-inclusive price + note on every card)
-//   docs/current-vdp.html -> docs/vdp.html   (fee-inclusive price + breakdown popover)
+//   docs/current-srp.html -> docs/srp.html   (fee-inclusive price + disclosure on every card)
+//   docs/current-vdp.html -> docs/vdp.html   (fee-inclusive price + disclosure popover, new wordmark)
 // and puts the Current/Proposed switch on all four. Safe to re-run.
 //
 // usage: node tools/apply-fees.mjs
@@ -42,35 +42,37 @@ function chrome($, page, proposed) {
   <a href="${page}.html"${proposed ? ' aria-current="page"' : ''}>Proposed</a>
 </nav>
 <script src="assets/mockup/switch.js"></script>\n`);
-  if (proposed) $('body').append('<script src="assets/mockup/fees.js"></script>\n');
+  if (proposed) {
+    $('body').append('<script src="assets/mockup/fees.js"></script>\n');
+    $('.logoBox .logo img[src*="logo_update"]').attr('src', 'assets/mockup/logo-new.svg').addClass('mk-logo-new');
+  }
 }
 
 let uid = 0;
-function popover(base) {
+// The disclosure mirrors the dealership's request line for line: a disclaimer,
+// the two fees inside the price, then the optional products outside it.
+function popover() {
   const id = `fx-pop-${++uid}`;
-  const row = (l, v, cls = '') => `<li class="fx-row ${cls}"><span class="fx-row__label">${l}</span><span class="fx-row__value">${v}</span></li>`;
+  const row = (l, v) => `<li class="fx-row"><span>${l}</span><span class="fx-row__value">${v}</span></li>`;
   return {
-    trigger: `<button type="button" class="fx-trigger" aria-expanded="false" aria-controls="${id}"><span class="fx-trigger__label">Incl. dealer fees</span><i class="fa fa-info-circle" aria-hidden="true"></i></button>`,
+    trigger: `<button type="button" class="fx-trigger" aria-expanded="false" aria-controls="${id}">Dealer fees included<svg class="fx-i" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v4.5M8 4.6v.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>`,
     pop: `
-<div class="fx-pop" id="${id}" role="dialog" aria-label="Price breakdown">
-  <button type="button" class="fx-close" aria-label="Close price breakdown">&times;</button>
-  <p class="fx-pop__head">Price breakdown</p>
-  <div class="fx-group">
-    <p class="fx-group__title">Included in price</p>
+<aside class="fx-pop" id="${id}" role="dialog" aria-labelledby="${id}-t">
+  <header class="fx-pop__bar">
+    <p class="fx-pop__title" id="${id}-t">Disclaimer</p>
+    <button type="button" class="fx-close" aria-label="Close"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+  </header>
+  <div class="fx-pop__body">
+    <p class="fx-lead">Dealer fees included in price.</p>
     <ul class="fx-rows">
-      ${row('Vehicle price', usd(base))}
       ${FEES.map((f) => row(f.label, usd(f.amount))).join('\n      ')}
-      ${row('Price', usd(base + FEE_TOTAL), 'fx-row--total')}
     </ul>
-  </div>
-  <div class="fx-group">
-    <p class="fx-group__title">Optional &mdash; not included</p>
+    <p class="fx-sub">Optional, not included</p>
     <ul class="fx-rows">
       ${OPTIONAL.map((o) => row(o.label, o.amount == null ? '<span class="fx-tbd">Price TBD</span>' : usd(o.amount))).join('\n      ')}
     </ul>
   </div>
-  <p class="fx-note fx-note--placeholder">Disclaimer text &mdash; to be supplied by the dealership.</p>
-</div>`,
+</aside>`,
   };
 }
 
@@ -107,7 +109,9 @@ for (const page of ['srp', 'vdp']) {
   $('.miniInf .price').each((_, el) => {
     const base = parse($(el).text());
     if (base == null) return; // no price on the card: nothing to include fees in
-    $(el).html(`Price: ${usd(base + FEE_TOTAL)}<span class="fx-srp-note">Incl. dealer fees</span>`);
+    $(el).text(`Price: ${usd(base + FEE_TOTAL)}`);
+    const p = popover();
+    $(el).parent().addClass('fx fx-srp').append(`<p class="fx-srp-row">${p.trigger}</p>${p.pop}`);
     n++;
   });
   chrome($, 'srp', true);
@@ -122,12 +126,11 @@ for (const page of ['srp', 'vdp']) {
   const base = parse(box.text());
   const total = usd(base + FEE_TOTAL);
 
-  const head = popover(base);
+  const head = popover();
   box.addClass('fx').html(`<h2>Price: ${total}</h2>${head.trigger}${head.pop}`);
 
-  const cell = $('.tableBox td').filter((_, el) => $(el).text().trim() === 'Price:').next();
-  const tbl = popover(base);
-  cell.html(`<div class="fx fx-cell">${total}${tbl.trigger}${tbl.pop}</div>`);
+  // one disclosure per page, next to the headline price; the Details table just carries the figure
+  $('.tableBox td').filter((_, el) => $(el).text().trim() === 'Price:').next().text(total);
 
   $('title').text($('title').text().replace(usd(base), total));
   $('meta[property="product:original_price:amount"]').attr('content', String(base + FEE_TOTAL));
