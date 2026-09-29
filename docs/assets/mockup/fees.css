@@ -52,7 +52,7 @@
 
 /* VDP header: price and its trigger stack as one unit inside the existing inline row */
 .actionsHead > .priceBox.fx { vertical-align: top; }
-.actionsHead > .priceBox.fx h2 { margin: 0 0 var(--fx-s1); }
+.actionsHead > .priceBox.fx h2 { margin: 0 0 var(--fx-s3); }
 @media (max-width: 767px) {
   .actionsHead > .priceBox.fx { display: block; margin-bottom: var(--fx-s3); }
   .actionsHead > .priceBox.fx + div { margin-left: 0; }

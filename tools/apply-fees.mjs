@@ -24,6 +24,9 @@ const parse = (s) => { const m = s.match(/\$\s*([\d,]+)/); return m ? +m[1].repl
 
 const load = async (f) => cheerio.load(await fs.readFile(`docs/${f}`, 'utf8'), { decodeEntities: false });
 
+// Cache-buster for the mockup's own CSS/JS, so a rebuild is never hidden behind a stale copy.
+const V = Date.now().toString(36);
+
 function chrome($, page, proposed) {
   // Inventory entry points lead to the matching SRP, so the pages can be reached like on the live site.
   const srp = proposed ? 'srp.html' : 'current-srp.html';
@@ -34,16 +37,16 @@ function chrome($, page, proposed) {
   $('.car-col a').not('.compare').attr('href', vdp);
   $('.car-col .item').attr('onclick', `location.href='${vdp}'`).css('cursor', 'pointer');
   $('.mk-switch, link[href*="assets/mockup/"], script[src*="assets/mockup/"]').remove();
-  $('head').append('<link rel="stylesheet" href="assets/mockup/snapshot.css">\n<link rel="stylesheet" href="assets/mockup/brand-type.css">\n<link rel="stylesheet" href="assets/mockup/fees.css">\n');
+  $('head').append(`<link rel="stylesheet" href="assets/mockup/snapshot.css?v=${V}">\n<link rel="stylesheet" href="assets/mockup/brand-type.css?v=${V}">\n<link rel="stylesheet" href="assets/mockup/fees.css?v=${V}">\n`);
   $('body').append(`
 <nav class="mk-switch" aria-label="Mockup view">
   <span class="mk-switch__tag">Mockup</span>
   <a href="current-${page}.html"${proposed ? '' : ' aria-current="page"'}>Current</a>
   <a href="${page}.html"${proposed ? ' aria-current="page"' : ''}>Proposed</a>
 </nav>
-<script src="assets/mockup/switch.js"></script>\n`);
+<script src="assets/mockup/switch.js?v=${V}"></script>\n`);
   if (proposed) {
-    $('body').append('<script src="assets/mockup/fees.js"></script>\n');
+    $('body').append(`<script src="assets/mockup/fees.js?v=${V}"></script>\n`);
     $('.logoBox .logo img[src*="logo_update"]').attr('src', 'assets/mockup/logo-new.svg').addClass('mk-logo-new');
   }
 }
@@ -86,6 +89,8 @@ function trim($, page) {
   $('.car-col .frame, .car-col .vehicle').removeAttr('style'); // heights frozen at the 1440px capture width
   $('#compare_display_new').remove(); // compare drawer: inert without scripts, only gets in the way
   $('.logoBox .logo.sisters').remove(); // partner-brand logos out of the header: McLaren stands alone
+  // home: a plain outline house in the nav's own colour instead of the orange disc
+  $('header .menuBox li.homeIc > a .imgIconBox').replaceWith('<svg class="mk-home" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 9.2 10 3.5l7 5.7M5 7.8V16.5h3.8v-4.6h2.4v4.6H15V7.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/></svg>');
   if ($('body').attr('data-trimmed')) return;
   $('body').attr('data-trimmed', '1');
   if (page === 'srp') $('.car-col').slice(SRP_CARDS).remove();

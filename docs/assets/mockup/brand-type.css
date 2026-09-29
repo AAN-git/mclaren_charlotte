@@ -89,15 +89,105 @@
 @font-face { font-family: "NewsGothicBT-RomanCondensed"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: bold; font-style: normal; size-adjust: 80%; font-display: swap; }
 @font-face { font-family: "Arial-Black"; src: url("fonts/McLarenSansText-Bold.woff") format("woff"); font-weight: bold; font-style: normal; size-adjust: 80%; font-display: swap; }
 
-/* main nav: title case, 14px, slightly tighter item padding so nine items fit */
+/* main nav: McLaren Sans Text, uppercase, tracked, with room between items */
 header .wrap .navigation .menuBox ul > li > a {
   font-family: "McLaren Sans Text", sans-serif;
   font-size: 14px;
-  font-weight: 700;
-  text-transform: none;
-  letter-spacing: 0;
-  padding-left: 3px;
-  padding-right: 3px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  padding-left: 6px;
+  padding-right: 6px;
 }
-/* with the partner logos gone the nav keeps its old right edge */
-header .wrap .navigation .menuBox > ul { text-align: right; }
+/* items spread evenly between the wordmark and the right edge: the widest gaps each
+   screen allows; on very wide screens the list is capped and stays right-aligned */
+header .wrap .navigation .menuBox > ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@media (min-width: 1600px) {
+  header .wrap .navigation .menuBox > ul { max-width: 1240px; margin-left: auto !important; margin-right: 0; }
+}
+/* the partner logos no longer sit between the wordmark and the nav: the list may grow
+   leftwards into that room while its right edge stays put */
+@media (min-width: 1200px) {
+  header .wrap .navigation .menuBox > ul { margin-left: -60px; } /* list starts ~40px after the wordmark */
+}
+/* narrower desktops: nine uppercase items only fit untracked (below 1200 the theme's mobile menu takes over) */
+@media (min-width: 1200px) and (max-width: 1439px) {
+  header .wrap .navigation .menuBox ul > li > a { letter-spacing: 0; padding-left: 3px; padding-right: 3px; }
+  header .wrap .navigation .menuBox > ul { margin-left: -30px; }
+}
+@media (min-width: 1200px) and (max-width: 1279px) {
+  header .wrap .navigation .menuBox > ul { margin-left: -40px; }
+  header .wrap .navigation .menuBox ul > li > a { font-size: 13px; padding-left: 2px; padding-right: 2px; }
+  header .wrap .navigation .menuBox ul > li.homeIc { display: none; }
+}
+
+/* ---- nav dropdowns ------------------------------------------------------------
+   The theme drew each item as a separate 19px light-grey slab (width 125% !important)
+   with brand logos. Here: one dark panel continuous with the header, left-aligned
+   14px items. Selectors are prefixed with html body to outrank the theme's. */
+html body header .wrap .navigation .menuBox ul > li > ul.sub-menu {
+  top: 100%;
+  left: 0;
+  width: auto;
+  min-width: 240px;
+  height: auto;
+  margin: 0;
+  padding: 8px 0;
+  background: #161616;
+  border-top: 2px solid #ff9f2e;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, .45);
+  text-align: left;
+}
+html body header .wrap .navigation .menuBox ul > li > ul.sub-menu > li {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+html body header .wrap .navigation .menuBox ul > li > ul.sub-menu > li + li { border-top: 1px solid #262626; }
+html body header .wrap .navigation .menuBox ul > li > ul.sub-menu > li > a {
+  border: 0;
+  display: block;
+  width: auto !important;
+  margin: 0;
+  padding: 10px 20px;
+  background: none;
+  box-shadow: none;
+  font-family: "McLaren Sans Text", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  text-align: left;
+  white-space: nowrap;
+  color: #e6e6e6;
+}
+html body header .wrap .navigation .menuBox ul > li > ul.sub-menu > li > a::before { content: none; display: none; }
+html body header .wrap .navigation .menuBox ul > li > ul.sub-menu > li > a:hover,
+html body header .wrap .navigation .menuBox ul > li > ul.sub-menu > li > a:focus-visible {
+  background: #262626;
+  color: #ff9f2e;
+}
+/* "All New Inventory" leads the list; a hairline sets it apart from the makes */
+html body header .wrap .navigation .menuBox ul > li.desktop-new-inventory > ul.sub-menu > li:first-child > a { color: #fff; font-weight: 700; }
+/* the last items open leftwards so their panels stay on screen */
+html body header .wrap .navigation .menuBox ul > li#menu-item-1372 > ul.sub-menu { left: auto; right: 0; }
+
+/* VDP title block: the wider face packs the title and the spec line tighter than
+   Knockout did, so give the three lines room to read as separate lines */
+.main .actionsHead > .titleBox { margin-bottom: 14px; }
+.main .actionsHead > .titleBox h1 { line-height: 1.1; }
+
+/* home: small outline house, no disc; keeps the accessible name from the link title */
+header .wrap .navigation .menuBox ul > li.homeIc { width: auto; height: auto; }
+header .wrap .navigation .menuBox ul > li.homeIc > a { display: flex; align-items: center; padding-top: 0; padding-bottom: 0; color: #ddd; }
+header .wrap .navigation .menuBox ul > li.homeIc > a:hover { color: #ff9f2e; }
+header .wrap .navigation .menuBox ul > li.homeIc .mk-home { width: 18px; height: 18px; display: block; }
