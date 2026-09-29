@@ -29,7 +29,10 @@ function chrome($, page, proposed) {
   const srp = proposed ? 'srp.html' : 'current-srp.html';
   $('a').filter((_, el) => /^(all|new) inventory$/i.test($(el).text().trim())).attr('href', srp);
   $('.back_block a').attr('href', srp);
-  $('.car-col a.button[title="View Vehicle Details"]').first().attr('href', proposed ? 'vdp.html' : 'current-vdp.html');
+  // One VDP stands in for every vehicle: any click on any card opens it.
+  const vdp = proposed ? 'vdp.html' : 'current-vdp.html';
+  $('.car-col a').not('.compare').attr('href', vdp);
+  $('.car-col .item').attr('onclick', `location.href='${vdp}'`).css('cursor', 'pointer');
   $('.mk-switch, link[href*="assets/mockup/"], script[src*="assets/mockup/"]').remove();
   $('head').append('<link rel="stylesheet" href="assets/mockup/snapshot.css">\n<link rel="stylesheet" href="assets/mockup/fees.css">\n');
   $('body').append(`
