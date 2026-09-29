@@ -95,6 +95,10 @@ body.inventory .inventory-section .car-col .vehicle .details .miniInf.fx-srp > .
   visibility: visible;
   transition: opacity var(--fx-dur) var(--fx-ease), transform var(--fx-dur) var(--fx-ease), visibility 0s;
 }
+/* SRP: the card clips its content (overflow: hidden); while the panel is open the card
+   lets it out and rises above the next row, so the panel lays over it instead of being cut */
+body.inventory .inventory-section .car-col .vehicle:has(.fx.is-open) { overflow: visible; }
+body.inventory .inventory-section .car-col:has(.fx.is-open) { position: relative; z-index: 50; }
 /* SRP: span the card's inner width so the panel never runs off the grid */
 .fx-srp > .fx-pop { left: var(--fx-s4); right: var(--fx-s4); width: auto; top: calc(100% - var(--fx-s2)); }
 
