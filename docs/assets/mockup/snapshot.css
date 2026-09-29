@@ -8,3 +8,25 @@
 /* shuffle.js laid the photo grid out with absolute positions; let the
    bootstrap columns flow it instead */
 .photos .photo:nth-child(odd) { clear: left; }
+
+/* SRP cards: the theme's script equalised card heights with inline min-heights frozen
+   at the capture width. Do it in CSS instead: every card in a row takes the tallest
+   card's height, the description block absorbs the difference, and the buttons and
+   Compare / Save strip line up across the row. */
+body.inventory .inventory-section .row { display: flex; flex-wrap: wrap; }
+body.inventory .inventory-section .row > .car-col { display: flex; float: none; }
+body.inventory .inventory-section .car-col > .item { display: flex; flex: 1 1 auto; width: 100%; }
+body.inventory .inventory-section .car-col .vehicle { display: flex; flex-direction: column; flex: 1 1 auto; width: 100%; }
+body.inventory .inventory-section .car-col .vehicle > .details { display: flex; flex-direction: column; flex: 1 1 auto; }
+/* the description gets a fixed four-line slot (12px lines + 17px padding = 82px), so
+   every card on the page has the same height; short text stays centred, long text is
+   cut at a line boundary */
+body.inventory .inventory-section .car-col .vehicle > .details > .ddt {
+  flex: 0 0 82px;
+  height: 82px;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
