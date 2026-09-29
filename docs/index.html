@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Dealer Fee Mockup</title>
+<style>
+  @font-face {
+    font-family: "Knockout-HTF30-JuniorWelterwt";
+    src: url("assets/fonts/Knockout-HTF30-JuniorWelterwt-4f746410.woff") format("woff");
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "GillSans";
+    src: url("assets/fonts/GillSansMT-cff6d895.woff") format("woff");
+    font-display: swap;
+  }
+  :root {
+    --bg: #242424;
+    --panel: #323232;
+    --rule: #444;
+    --text: #fff;
+    --muted: #b4b4b4;
+    --accent: #ff9f2e;
+    --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 72px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "GillSans", "Gill Sans", sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: var(--s8) var(--s4); }
+  .kicker, h1, h2, .card__title, .card a {
+    font-family: "Knockout-HTF30-JuniorWelterwt", sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  .kicker { margin: 0 0 var(--s3); font-size: 16px; letter-spacing: .04em; color: var(--muted); }
+  h1 { margin: 0 0 var(--s4); font-size: clamp(36px, 6vw, 56px); line-height: 1; color: var(--accent); }
+  .lede { margin: 0; max-width: 60ch; color: var(--muted); }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--s4); margin: var(--s7) 0; }
+  .card { padding: var(--s5); background: var(--panel); border-radius: 4px; }
+  .card__title { margin: 0 0 var(--s2); font-size: 24px; line-height: 1.1; }
+  .card p { margin: 0 0 var(--s5); font-size: 15px; color: var(--muted); }
+  .card__links { display: flex; gap: var(--s3); flex-wrap: wrap; }
+  .card a {
+    display: inline-block;
+    padding: var(--s3) var(--s5);
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    font-size: 17px;
+    line-height: 1;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .card a.primary { background: var(--accent); color: #151514; }
+  .card a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  h2 { margin: var(--s7) 0 var(--s4); font-size: 26px; line-height: 1.1; }
+  ul, ol { margin: 0; padding-left: 1.2em; }
+  li { margin-bottom: var(--s3); max-width: 68ch; }
+  li::marker { color: var(--accent); }
+  ol li { padding-left: var(--s2); }
+  strong { font-weight: 400; color: var(--text); font-family: "Knockout-HTF30-JuniorWelterwt", sans-serif; text-transform: uppercase; letter-spacing: .02em; }
+  .muted { color: var(--muted); }
+  .foot { margin-top: var(--s7); padding-top: var(--s5); border-top: 1px solid var(--rule); font-size: 15px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <p class="kicker">McLaren Charlotte · Mockup · Not the live site</p>
+  <h1>Price including dealer fees</h1>
+  <p class="lede">The listed price now includes the mandatory dealer fees, and a short breakdown sits one click (or one tap) away. Nothing else on the site changes.</p>
+
+  <div class="cards">
+    <section class="card">
+      <h3 class="card__title">Search results</h3>
+      <p>Each card shows the fee-inclusive price with a short “Incl. dealer fees” note underneath.</p>
+      <div class="card__links">
+        <a class="primary" href="srp.html">Proposed</a>
+        <a href="current-srp.html">Current</a>
+      </div>
+    </section>
+    <section class="card">
+      <h3 class="card__title">Vehicle page</h3>
+      <p>2027 750S Spider. Click “Incl. dealer fees” next to the price to see the breakdown.</p>
+      <div class="card__links">
+        <a class="primary" href="vdp.html">Proposed</a>
+        <a href="current-vdp.html">Current</a>
+      </div>
+    </section>
+  </div>
+
+  <h2>What changes</h2>
+  <ul>
+    <li><strong>Price</strong> — the doc fee ($2,805) and the electronic filing fee ($245) are added to the listed price everywhere it appears: search results, the vehicle page header and the Details table.</li>
+    <li><strong>Breakdown</strong> — on the vehicle page, “Incl. dealer fees” opens a small panel with the vehicle price, each fee and the total. The optional products are listed separately under “Not included”, so they are never mistaken for part of the price.</li>
+    <li><strong>How it opens</strong> — on a computer it opens on hover and stays open on click. On a phone it opens on tap, because phones have no hover.</li>
+  </ul>
+
+  <h2>Open questions for the dealership</h2>
+  <ol>
+    <li><strong>Exotic Care price.</strong> <span class="muted">It is shown as “Price TBD” until we have a figure, or wording such as “Varies — ask your advisor”.</span></li>
+    <li><strong>Disclaimer text.</strong> <span class="muted">The panel has a space for it. The wording should come from the dealership.</span></li>
+    <li><strong>Are the fees added on top of today’s prices?</strong> <span class="muted">The mockup assumes yes, e.g. $431,470 becomes $434,520. If the current prices already include them, only the note and the breakdown are added.</span></li>
+    <li><strong>Which vehicles?</strong> <span class="muted">All new inventory including Rolls-Royce and Koenigsegg, and pre-owned too?</span></li>
+    <li><strong>Vehicles without a price</strong> <span class="muted">(“Call for price”) show no note and no breakdown.</span></li>
+    <li><strong>E-Price, finance calculator and lead emails</strong> <span class="muted">should use the same fee-inclusive figure, so a customer never sees two different prices.</span></li>
+  </ol>
+
+  <p class="foot">Use the Current / Proposed switch at the bottom of each page to flip between the two at the same scroll position. Links and forms on these pages are disabled.</p>
+</main>
+</body>
+</html>

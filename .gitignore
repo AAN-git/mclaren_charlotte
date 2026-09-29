@@ -1,0 +1,4 @@
+node_modules/
+_src/
+.playwright-mcp/
+.DS_Store
