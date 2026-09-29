@@ -25,6 +25,11 @@ const parse = (s) => { const m = s.match(/\$\s*([\d,]+)/); return m ? +m[1].repl
 const load = async (f) => cheerio.load(await fs.readFile(`docs/${f}`, 'utf8'), { decodeEntities: false });
 
 function chrome($, page, proposed) {
+  // Inventory entry points lead to the matching SRP, so the pages can be reached like on the live site.
+  const srp = proposed ? 'srp.html' : 'current-srp.html';
+  $('a').filter((_, el) => /^(all|new) inventory$/i.test($(el).text().trim())).attr('href', srp);
+  $('.back_block a').attr('href', srp);
+  $('.car-col a.button[title="View Vehicle Details"]').first().attr('href', proposed ? 'vdp.html' : 'current-vdp.html');
   $('.mk-switch, link[href*="assets/mockup/"], script[src*="assets/mockup/"]').remove();
   $('head').append('<link rel="stylesheet" href="assets/mockup/snapshot.css">\n<link rel="stylesheet" href="assets/mockup/fees.css">\n');
   $('body').append(`
@@ -100,7 +105,6 @@ for (const page of ['srp', 'vdp']) {
     $(el).html(`Price: ${usd(base + FEE_TOTAL)}<span class="fx-srp-note">Incl. dealer fees</span>`);
     n++;
   });
-  $('.car-col a.button[title="View Vehicle Details"]').first().attr('href', 'vdp.html');
   chrome($, 'srp', true);
   await fs.writeFile('docs/srp.html', $.html());
   console.log('srp: repriced', n, 'cards');
