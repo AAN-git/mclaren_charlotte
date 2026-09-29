@@ -85,6 +85,7 @@ function trim($, page) {
   $('.photos, .photos .photo').removeAttr('style'); // drop shuffle.js's frozen absolute layout
   $('.car-col .frame, .car-col .vehicle').removeAttr('style'); // heights frozen at the 1440px capture width
   $('#compare_display_new').remove(); // compare drawer: inert without scripts, only gets in the way
+  $('.logoBox .logo.sisters').remove(); // partner-brand logos out of the header: McLaren stands alone
   if ($('body').attr('data-trimmed')) return;
   $('body').attr('data-trimmed', '1');
   if (page === 'srp') $('.car-col').slice(SRP_CARDS).remove();

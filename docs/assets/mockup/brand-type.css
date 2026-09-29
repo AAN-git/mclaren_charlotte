@@ -99,3 +99,5 @@ header .wrap .navigation .menuBox ul > li > a {
   padding-left: 3px;
   padding-right: 3px;
 }
+/* with the partner logos gone the nav keeps its old right edge */
+header .wrap .navigation .menuBox > ul { text-align: right; }
