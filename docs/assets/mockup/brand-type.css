@@ -186,8 +186,8 @@ html body header .wrap .navigation .menuBox ul > li#menu-item-1372 > ul.sub-menu
 .main .actionsHead > .titleBox { margin-bottom: 14px; }
 .main .actionsHead > .titleBox h1 { line-height: 1.1; }
 
-/* home: small outline house, no disc; keeps the accessible name from the link title */
+/* home: small orange outline house, no disc; keeps the accessible name from the link title */
 header .wrap .navigation .menuBox ul > li.homeIc { width: auto; height: auto; }
-header .wrap .navigation .menuBox ul > li.homeIc > a { display: flex; align-items: center; padding-top: 0; padding-bottom: 0; color: #ddd; }
-header .wrap .navigation .menuBox ul > li.homeIc > a:hover { color: #ff9f2e; }
+header .wrap .navigation .menuBox ul > li.homeIc > a { display: flex; align-items: center; padding-top: 0; padding-bottom: 0; color: #ff9f2e; }
+header .wrap .navigation .menuBox ul > li.homeIc > a:hover { color: #fff; }
 header .wrap .navigation .menuBox ul > li.homeIc .mk-home { width: 18px; height: 18px; display: block; }
