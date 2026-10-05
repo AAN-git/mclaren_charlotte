@@ -194,3 +194,94 @@ body.inventory .inventory-section .car-col:has(.fx.is-open) { position: relative
   object-fit: contain;
   object-position: left center;
 }
+
+/* ---- V2: price stacking ------------------------------------------------------
+   The dealer's own format, line for line: Price / Documentation fee / Electronic
+   filing fee / Total Price, then Optional. Always visible on the VDP (dark ground),
+   inside the breakdown popover on the SRP (white ground). */
+.st {
+  --st-ink: var(--fx-ink);
+  --st-muted: var(--fx-muted);
+  --st-rule: var(--fx-rule);
+  font-family: var(--fx-text);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: left;
+  color: var(--st-ink);
+}
+.st-rows { margin: 0; padding: 0; list-style: none; }
+.st-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--fx-s4);
+  padding: var(--fx-s1) 0;
+  color: var(--st-muted);
+}
+.st-val { color: var(--st-ink); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.st-row--price { font-weight: 700; color: var(--st-ink); }
+.st-row--total {
+  margin-top: var(--fx-s2);
+  padding-top: var(--fx-s3);
+  border-top: 1px solid var(--st-rule);
+  font-family: var(--fx-display);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--st-ink);
+}
+.st-sub {
+  margin: var(--fx-s4) 0 var(--fx-s1);
+  padding-top: var(--fx-s3);
+  border-top: 1px solid var(--st-rule);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--st-ink);
+}
+.st-legal {
+  margin: var(--fx-s3) 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--st-muted);
+}
+
+/* VDP: its own block under the title and the Year / Mileage line, on the dark page */
+.main .actionsHead > .st-box {
+  display: block;
+  max-width: 440px;
+  margin: var(--fx-s5) 0 0;
+  font-size: 15px;
+  text-transform: none;
+}
+.st-box .st {
+  --st-ink: #fff;
+  --st-muted: #b4b4b4;   /* 8.3:1 on #242424 */
+  --st-rule: #444;
+}
+
+/* SRP: the same stack inside the popover */
+.fx-pop--stack .st-legal { padding-top: var(--fx-s3); border-top: 1px solid var(--fx-rule); }
+
+/* VDP V2, desktop: title and Year / Mileage on the left, the stack on the right,
+   top-aligned with the title, so the gallery is not pushed down a full screen */
+@media (min-width: 992px) {
+  .mk-v2 .main .actionsHead {
+    display: grid;
+    grid-template-columns: max-content max-content 1fr 420px;
+    grid-template-rows: auto auto 1fr;
+    column-gap: 0;
+    align-items: start;
+  }
+  .mk-v2 .main .actionsHead > .titleBox { grid-column: 1 / 4; grid-row: 1; }
+  .mk-v2 .main .actionsHead > .year { grid-column: 1; grid-row: 2; }
+  .mk-v2 .main .actionsHead > .milleage { grid-column: 2; grid-row: 2; }
+  .mk-v2 .main .actionsHead > .st-box { grid-column: 4; grid-row: 1 / 4; margin: 0; max-width: none; }
+}
+
+/* SRP V2: "Total Price: $434,520" is too long for a third of the card — give it the
+   full width on its own line, Year left and Miles right beneath it */
+body.inventory.mk-v2 .inventory-section .car-col .vehicle .details .miniInf > .price { float: none; width: 100%; margin-bottom: var(--fx-s2); }
+body.inventory.mk-v2 .inventory-section .car-col .vehicle .details .miniInf > .year { width: 50%; text-align: left; }
+body.inventory.mk-v2 .inventory-section .car-col .vehicle .details .miniInf > .mileage { width: 50%; text-align: right; }

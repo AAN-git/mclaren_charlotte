@@ -1,7 +1,10 @@
 // Builds the proposed pages from the captured current ones:
 //   docs/current-srp.html -> docs/srp.html   (fee-inclusive price + disclosure on every card)
 //   docs/current-vdp.html -> docs/vdp.html   (fee-inclusive price + disclosure popover, new wordmark)
-// and puts the Current/Proposed switch on all four. Safe to re-run.
+//   V2, the dealer's "price stacking" format (Price / fees / Total Price / Optional):
+//   docs/current-srp.html -> docs/srp-v2.html (Total Price on every card + stack in a popover)
+//   docs/current-vdp.html -> docs/vdp-v2.html (stack always visible under the title)
+// Safe to re-run.
 //
 // usage: node tools/apply-fees.mjs
 
@@ -29,13 +32,19 @@ const load = async (f) => cheerio.load(await fs.readFile(`docs/${f}`, 'utf8'), {
 // Cache-buster for the mockup's own CSS/JS, so a rebuild is never hidden behind a stale copy.
 const V = Date.now().toString(36);
 
-function chrome($, page, proposed) {
+const PAGES = {
+  current: { srp: 'current-srp.html', vdp: 'current-vdp.html' },
+  v1: { srp: 'srp.html', vdp: 'vdp.html' },
+  v2: { srp: 'srp-v2.html', vdp: 'vdp-v2.html' },
+};
+
+function chrome($, page, mode) {
+  const proposed = mode !== 'current';
   // Inventory entry points lead to the matching SRP, so the pages can be reached like on the live site.
-  const srp = proposed ? 'srp.html' : 'current-srp.html';
+  const { srp, vdp } = PAGES[mode];
   $('a').filter((_, el) => /^(all|new) inventory$/i.test($(el).text().trim())).attr('href', srp);
   $('.back_block a').attr('href', srp);
   // One VDP stands in for every vehicle: any click on any card opens it.
-  const vdp = proposed ? 'vdp.html' : 'current-vdp.html';
   $('.car-col a').not('.compare').attr('href', vdp);
   $('.car-col .item').attr('onclick', `location.href='${vdp}'`).css('cursor', 'pointer');
   $('.mk-switch, link[href*="assets/mockup/"], script[src*="assets/mockup/"]').remove();
@@ -76,6 +85,47 @@ function popover() {
   };
 }
 
+// V2: the dealer's price-stacking format, line for line (Jacqueline Chen, 5 Oct 2026):
+// Price / Documentation fee / Electronic filing fee / Total Price, then Optional.
+const V2_FEES = [
+  { label: 'Documentation fee', amount: 2805 },
+  { label: 'Electronic filing fee', amount: 245 },
+];
+const V2_OPTIONAL = [
+  { label: 'Exotic Care', amount: 1995 }, // SAMPLE figure — dealer to confirm
+  { label: 'Nano Windshield', amount: 500 },
+];
+function stack(base) {
+  const row = (l, v, cls = '') => `<li class="st-row ${cls}"><span>${l}</span><span class="st-val">${v}</span></li>`;
+  return `
+<div class="st">
+  <ul class="st-rows">
+    ${row('Price', usd(base), 'st-row--price')}
+    ${V2_FEES.map((f) => row(f.label, usd(f.amount))).join('\n    ')}
+    ${row('Total Price', usd(base + FEE_TOTAL), 'st-row--total')}
+  </ul>
+  <p class="st-sub">Optional</p>
+  <ul class="st-rows st-rows--opt">
+    ${V2_OPTIONAL.map((o) => row(o.label, usd(o.amount))).join('\n    ')}
+  </ul>
+  <p class="st-legal">${DISCLAIMER}</p>
+</div>`;
+}
+function stackPopover(base) {
+  const id = `fx-pop-${++uid}`;
+  return {
+    trigger: `<button type="button" class="fx-trigger" aria-expanded="false" aria-controls="${id}">Price breakdown<svg class="fx-i" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v4.5M8 4.6v.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>`,
+    pop: `
+<aside class="fx-pop fx-pop--stack" id="${id}" role="dialog" aria-labelledby="${id}-t">
+  <header class="fx-pop__bar">
+    <p class="fx-pop__title" id="${id}-t">Price breakdown</p>
+    <button type="button" class="fx-close" aria-label="Close"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+  </header>
+  <div class="fx-pop__body">${stack(base)}</div>
+</aside>`,
+  };
+}
+
 // A mockup to sit and think over, not the full inventory: 20 cards (five even
 // rows of four) and five photos (the slider's first + two rows of the grid).
 const SRP_CARDS = 20;
@@ -101,7 +151,7 @@ function trim($, page) {
 for (const page of ['srp', 'vdp']) {
   const $ = await load(`current-${page}.html`);
   trim($, page);
-  chrome($, page, false);
+  chrome($, page, 'current');
   await fs.writeFile(`docs/current-${page}.html`, $.html());
 }
 
@@ -117,7 +167,7 @@ for (const page of ['srp', 'vdp']) {
     $(el).parent().addClass('fx fx-srp').append(`<p class="fx-srp-row">${p.trigger}</p>${p.pop}`);
     n++;
   });
-  chrome($, 'srp', true);
+  chrome($, 'srp', 'v1');
   await fs.writeFile('docs/srp.html', $.html());
   console.log('srp: repriced', n, 'cards');
 }
@@ -137,7 +187,43 @@ for (const page of ['srp', 'vdp']) {
 
   $('title').text($('title').text().replace(usd(base), total));
   $('meta[property="product:original_price:amount"]').attr('content', String(base + FEE_TOTAL));
-  chrome($, 'vdp', true);
+  chrome($, 'vdp', 'v1');
   await fs.writeFile('docs/vdp.html', $.html());
   console.log('vdp:', usd(base), '->', total);
+}
+
+// ---- SRP V2 -------------------------------------------------------------------
+{
+  const $ = await load('current-srp.html');
+  let n = 0;
+  $('.miniInf .price').each((_, el) => {
+    const base = parse($(el).text());
+    if (base == null) return;
+    $(el).text(`Total Price: ${usd(base + FEE_TOTAL)}`);
+    const p = stackPopover(base);
+    $(el).parent().addClass('fx fx-srp').append(`<p class="fx-srp-row">${p.trigger}</p>${p.pop}`);
+    n++;
+  });
+  $('body').addClass('mk-v2');
+  chrome($, 'srp', 'v2');
+  await fs.writeFile('docs/srp-v2.html', $.html());
+  console.log('srp-v2:', n, 'cards');
+}
+
+// ---- VDP V2 -------------------------------------------------------------------
+{
+  const $ = await load('current-vdp.html');
+  const head = $('.actionsHead');
+  const box = head.find('.priceBox');
+  const base = parse(box.text());
+  // title, then Year / Mileage, then the stack as its own block
+  box.remove();
+  head.append(`<div class="st-box">${stack(base)}</div>`);
+  const cell = $('.tableBox td').filter((_, el) => $(el).text().trim() === 'Price:');
+  cell.next().text(usd(base));
+  cell.parent().after(`<tr><td>Total Price:</td><td>${usd(base + FEE_TOTAL)}</td></tr>`);
+  $('body').addClass('mk-v2');
+  chrome($, 'vdp', 'v2');
+  await fs.writeFile('docs/vdp-v2.html', $.html());
+  console.log('vdp-v2:', usd(base), '+ fees =', usd(base + FEE_TOTAL));
 }
