@@ -4,6 +4,14 @@
    one-line note beneath. Midnight #050F23 is McLaren's primary colour (brand
    guidelines, Sept 2026, p. 76–77); white type on it per p. 90. */
 
+/* McLaren Automotive palette (brand guidelines, Sept 2026, p. 76) */
+:root {
+  --mcl-midnight: #050f23;
+  --mcl-papaya: #ff8000;
+  --mcl-colnbrook: #dcdad4;
+  --mcl-mist: #f0f0f0;
+}
+
 /* The theme styles every direct child of .actionsHead (inline-block, Knockout caps,
    orange first child, 50px left margin) and V2 turns the header into a 4-column
    grid. V3 resets both: the selectors below outrank them. */
@@ -24,7 +32,7 @@ body.mk-v3 .main .actionsHead.v3-head > .v3-band {
   column-gap: 64px;
   padding: 44px 48px 28px;
   vertical-align: top;
-  background: #050f23;
+  background: var(--mcl-midnight);
   color: #fff;
   font-family: var(--fx-text);
   text-transform: none;
@@ -48,7 +56,7 @@ body.mk-v3 .main .actionsHead.v3-head > .v3-band {
   margin: 12px 0 0;
   font-size: 20px;
   line-height: 1.3;
-  color: #b9bfcc;          /* 9.9:1 on Midnight */
+  color: var(--mcl-colnbrook);   /* 13.6:1 on Midnight */
 }
 .v3-sub span { margin: 0 6px; }
 
@@ -61,7 +69,7 @@ body.mk-v3 .main .actionsHead.v3-head > .v3-band {
   gap: 24px;
   padding: 3px 0;
 }
-.v3-row dt { margin: 0; font-size: 17px; font-weight: 400; color: #d5d9e2; }
+.v3-row dt { margin: 0; font-size: 17px; font-weight: 400; color: var(--mcl-colnbrook); }
 .v3-row dd {
   margin: 0;
   font-size: 20px;
@@ -81,7 +89,7 @@ body.mk-v3 .main .actionsHead.v3-head > .v3-band {
   font-size: 36px;
   font-weight: 700;
   line-height: 1;
-  color: var(--fx-accent);
+  color: var(--mcl-papaya);       /* 7.6:1 on Midnight */
 }
 
 /* ---- optional products + note -------------------------------------------------- */
@@ -91,11 +99,11 @@ body.mk-v3 .main .actionsHead.v3-head > .v3-band {
   padding-top: 22px;
   border-top: 1px solid rgba(255, 255, 255, .18);
 }
-.v3-opt { margin: 0; font-size: 16px; line-height: 1.4; color: #e3e6ec; }
+.v3-opt { margin: 0; font-size: 16px; line-height: 1.4; color: var(--mcl-mist); }
 .v3-opt strong { font-weight: 700; color: #fff; margin: 0 10px 0 0; padding: 0; }
 .v3-optitem { white-space: nowrap; }
-.v3-dot { margin: 0 6px; color: #8e96a8; }
-.v3-note { margin: 8px 0 0; font-size: 14px; line-height: 1.45; color: #b9bfcc; }
+.v3-dot { margin: 0 6px; color: var(--mcl-colnbrook); }
+.v3-note { margin: 8px 0 0; font-size: 14px; line-height: 1.45; color: var(--mcl-colnbrook); }
 
 /* the gallery sits directly under the band */
 .mk-v3 .main .actionsHead.v3-head + * { margin-top: 0; }
@@ -118,3 +126,15 @@ body.mk-v3 .main .actionsHead.v3-head > .v3-band {
   .v3-opt strong { display: block; margin: 0 0 4px; }
   .mk-v3 .main .actionsHead .v3-title { white-space: normal; }
 }
+
+/* ---- SRP V3: the open price stack in each card, in the same palette as the VDP band
+   (Midnight panel, Colnbrook labels, white figures, Papaya total) ------------------ */
+body.mk-v3 .car-col .details > .st-card {
+  --st-ink: #fff;
+  --st-muted: var(--mcl-colnbrook);   /* 13.6:1 on Midnight */
+  --st-rule: rgba(255, 255, 255, .22);
+  background: var(--mcl-midnight);
+  border-bottom: 0;
+}
+body.mk-v3 .car-col .st-card .st-row--total .st-val { color: var(--mcl-papaya); }  /* 7.6:1 */
+body.mk-v3 .car-col .st-card .st-sub { color: #fff; }
