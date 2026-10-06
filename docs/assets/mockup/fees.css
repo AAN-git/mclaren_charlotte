@@ -285,3 +285,19 @@ body.inventory .inventory-section .car-col:has(.fx.is-open) { position: relative
 body.inventory.mk-v2 .inventory-section .car-col .vehicle .details .miniInf > .price { float: none; width: 100%; margin-bottom: var(--fx-s2); }
 body.inventory.mk-v2 .inventory-section .car-col .vehicle .details .miniInf > .year { width: 50%; text-align: left; }
 body.inventory.mk-v2 .inventory-section .car-col .vehicle .details .miniInf > .mileage { width: 50%; text-align: right; }
+
+/* SRP V3: the price stack open in every card (no hover, no click), on the dark card */
+.mk-v3 .car-col .details > .st-card {
+  --st-ink: #fff;
+  --st-muted: #b4b4b4;   /* 6.2:1 on the #323232 card */
+  --st-rule: #4a4a4a;
+  padding: var(--fx-s3) 15px var(--fx-s4);
+  border-bottom: 1px solid #505050;
+  font-size: 14px;
+}
+.mk-v3 .car-col .st-card .st-row { padding: 2px 0; }
+.mk-v3 .car-col .st-card .st-row--total { margin-top: var(--fx-s1); padding-top: var(--fx-s2); font-size: 17px; }
+.mk-v3 .car-col .st-card .st-sub { margin-top: var(--fx-s3); padding-top: var(--fx-s2); font-size: 14px; }
+/* Year / Miles keep their row above the stack, now as two halves */
+body.inventory.mk-v3 .inventory-section .car-col .vehicle .details .miniInf > .year { width: 50%; text-align: left; }
+body.inventory.mk-v3 .inventory-section .car-col .vehicle .details .miniInf > .mileage { width: 50%; text-align: right; }

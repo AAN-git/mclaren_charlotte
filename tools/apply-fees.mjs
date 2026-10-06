@@ -97,20 +97,20 @@ const V2_OPTIONAL = [
   { label: 'Exotic Care', amount: 1995 }, // SAMPLE figure — dealer to confirm
   { label: 'Nano Windshield', amount: 500 },
 ];
-function stack(base) {
-  const row = (l, v, cls = '') => `<li class="st-row ${cls}"><span>${l}</span><span class="st-val">${v}</span></li>`;
+function stack(base, { plus = false, legal = true, cls = '' } = {}) {
+  const row = (l, v, c = '') => `<li class="st-row ${c}"><span>${l}</span><span class="st-val">${v}</span></li>`;
   return `
-<div class="st">
+<div class="st ${cls}">
   <ul class="st-rows">
     ${row('Price', usd(base), 'st-row--price')}
-    ${V2_FEES.map((f) => row(f.label, usd(f.amount))).join('\n    ')}
+    ${V2_FEES.map((f) => row(f.label, (plus ? '+' : '') + usd(f.amount))).join('\n    ')}
     ${row('Total Price', usd(base + FEE_TOTAL), 'st-row--total')}
   </ul>
   <p class="st-sub">Optional</p>
   <ul class="st-rows st-rows--opt">
     ${V2_OPTIONAL.map((o) => row(o.label, usd(o.amount))).join('\n    ')}
   </ul>
-  <p class="st-legal">${DISCLAIMER}</p>
+  ${legal ? `<p class="st-legal">${DISCLAIMER}</p>` : ''}
 </div>`;
 }
 function stackPopover(base) {
@@ -205,9 +205,16 @@ async function buildStackPages(mode) {
     $('.miniInf .price').each((_, el) => {
       const base = parse($(el).text());
       if (base == null) return;
-      $(el).text(`Total Price: ${usd(base + FEE_TOTAL)}`);
-      const p = stackPopover(base);
-      $(el).parent().addClass('fx fx-srp').append(`<p class="fx-srp-row">${p.trigger}</p>${p.pop}`);
+      if (mode === 'v3') {
+        // V3: no hover, no click: the stack sits open in the card (dealer's reference, 6 Oct 2026)
+        const mini = $(el).parent();
+        $(el).remove();
+        mini.after(stack(base, { plus: true, legal: false, cls: 'st-card' }));
+      } else {
+        $(el).text(`Total Price: ${usd(base + FEE_TOTAL)}`);
+        const p = stackPopover(base);
+        $(el).parent().addClass('fx fx-srp').append(`<p class="fx-srp-row">${p.trigger}</p>${p.pop}`);
+      }
       n++;
     });
     $('body').addClass(cls);
@@ -222,7 +229,7 @@ async function buildStackPages(mode) {
     const base = parse(box.text());
     // title, then Year / Mileage, then the stack as its own block
     box.remove();
-    head.append(`<div class="st-box">${stack(base)}</div>`);
+    head.append(`<div class="st-box">${stack(base, { plus: mode === 'v3' })}</div>`);
     const cell = $('.tableBox td').filter((_, el) => $(el).text().trim() === 'Price:');
     cell.next().text(usd(base));
     cell.parent().after(`<tr><td>Total Price:</td><td>${usd(base + FEE_TOTAL)}</td></tr>`);
