@@ -49,9 +49,17 @@ body.mk-v3 .main .actionsHead.v3-head > .v3-band {
   margin: 0;
   font-family: var(--fx-display);
   font-size: clamp(30px, 2.9vw, 44px);
-  white-space: nowrap;
   font-weight: 700;
-  line-height: 1.05;
+  line-height: 1.08;
+  /* long model names wrap to a second line; anything longer ends in an ellipsis
+     instead of pushing the price stack */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  text-wrap: balance;
   letter-spacing: .01em;
   text-transform: none;   /* "McLAREN" is set in the markup, as the guidelines write it */
   color: #fff;
@@ -128,7 +136,6 @@ body.mk-v3 .main .actionsHead.v3-head > .v3-band {
   .v3-foot { margin-top: 0; padding-top: 18px; }
   .v3-opt { font-size: 15px; }
   .v3-opt strong { display: block; margin: 0 0 4px; }
-  .mk-v3 .main .actionsHead .v3-title { white-space: normal; }
 }
 
 /* ---- SRP V3: the open price stack in each card, in the same palette as the VDP band
