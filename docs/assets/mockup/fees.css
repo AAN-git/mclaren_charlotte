@@ -301,3 +301,80 @@ body.inventory.mk-v2 .inventory-section .car-col .vehicle .details .miniInf > .m
 /* Year / Miles keep their row above the stack, now as two halves */
 body.inventory.mk-v3 .inventory-section .car-col .vehicle .details .miniInf > .year { width: 50%; text-align: left; }
 body.inventory.mk-v3 .inventory-section .car-col .vehicle .details .miniInf > .mileage { width: 50%; text-align: right; }
+
+/* ---- VDP V3: the price stack as one line under the title ----------------------
+   Price + fees = Total Price across the page width; optional products and the
+   small print run beneath at reading length. Becomes a vertical list on phones. */
+.mk-v3 .main .actionsHead { display: block; }
+.main .actionsHead > .sx-box {
+  display: block;
+  margin: var(--fx-s4) 0 0;
+  font-size: 15px;
+  text-transform: none;
+}
+.sx { font-family: var(--fx-text); color: #fff; letter-spacing: 0; text-transform: none; }
+.sx-eq {
+  display: inline-flex;  /* the rule beneath spans the figures, not the page */
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--fx-s3) var(--fx-s5);
+  margin: 0;
+  padding-bottom: var(--fx-s4);
+  border-bottom: 1px solid #444;
+}
+.sx-item { margin: 0; }
+.sx-item dt {
+  margin: 0 0 var(--fx-s1);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #b4b4b4;            /* 8.3:1 on #242424 */
+}
+.sx-item dd {
+  margin: 0;
+  font-family: var(--fx-display);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+.sx-op {
+  align-self: flex-end;
+  font-family: var(--fx-display);
+  font-size: 20px;
+  line-height: 1.1;
+  color: #8a8a8a;            /* decorative operator; the labels carry the meaning */
+}
+.sx-total dt { color: #fff; font-weight: 700; }
+.sx-total dd { font-size: 28px; color: var(--fx-accent); }
+.sx-opt {
+  margin: var(--fx-s3) 0 0;
+  font-size: 15px;
+  line-height: 1.4;
+  color: #d6d6d6;
+}
+.sx-opt__label { font-weight: 700; color: #fff; margin-right: var(--fx-s2); }
+.sx-num { color: #fff; font-variant-numeric: tabular-nums; }
+.sx-dot { margin: 0 var(--fx-s2); color: #8a8a8a; }
+.sx-legal {
+  max-width: 78ch;
+  margin: var(--fx-s2) 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #b4b4b4;
+}
+
+@media (max-width: 767px) {
+  .sx-eq { display: block; }
+  .sx-op { display: none; }
+  .sx-item { display: flex; justify-content: space-between; align-items: baseline; padding: 3px 0; }
+  .sx-item dt { margin: 0; font-size: 15px; }
+  .sx-item dd { font-family: var(--fx-text); font-size: 15px; font-weight: 400; }
+  .sx-total { margin-top: var(--fx-s2); padding-top: var(--fx-s3); border-top: 1px solid #444; }
+  .sx-total dt { font-family: var(--fx-display); font-size: 19px; }
+  .sx-total dd { font-family: var(--fx-display); font-size: 22px; font-weight: 700; }
+  .sx-opt__label { display: block; margin: 0 0 var(--fx-s1); }
+  /* the + operators are hidden in the list: carry them on the fee amounts instead */
+  .sx-item + .sx-op + .sx-item:not(.sx-total) dd::before { content: "+"; }
+}

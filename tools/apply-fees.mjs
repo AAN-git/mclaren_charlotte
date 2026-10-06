@@ -113,6 +113,25 @@ function stack(base, { plus = false, legal = true, cls = '' } = {}) {
   ${legal ? `<p class="st-legal">${DISCLAIMER}</p>` : ''}
 </div>`;
 }
+// V3 VDP: the same figures as one horizontal line under the title
+// (Price + fees = Total Price), optional products and small print beneath,
+// so the stack reads across the page instead of pushing the gallery down.
+function strip(base) {
+  const item = (l, v, c = '') => `<div class="sx-item ${c}"><dt>${l}</dt><dd>${v}</dd></div>`;
+  return `
+<div class="sx">
+  <dl class="sx-eq">
+    ${item('Price', usd(base))}
+    <span class="sx-op" aria-hidden="true">+</span>
+    ${V2_FEES.map((f) => item(f.label, usd(f.amount))).join('\n    <span class="sx-op" aria-hidden="true">+</span>\n    ')}
+    <span class="sx-op" aria-hidden="true">=</span>
+    ${item('Total Price', usd(base + FEE_TOTAL), 'sx-total')}
+  </dl>
+  <p class="sx-opt"><span class="sx-opt__label">Optional</span> ${V2_OPTIONAL.map((o) => `${o.label} <span class="sx-num">${usd(o.amount)}</span>`).join(' <span class="sx-dot" aria-hidden="true">·</span> ')}</p>
+  <p class="sx-legal">${DISCLAIMER}</p>
+</div>`;
+}
+
 function stackPopover(base) {
   const id = `fx-pop-${++uid}`;
   return {
@@ -229,7 +248,7 @@ async function buildStackPages(mode) {
     const base = parse(box.text());
     // title, then Year / Mileage, then the stack as its own block
     box.remove();
-    head.append(`<div class="st-box">${stack(base, { plus: mode === 'v3' })}</div>`);
+    head.append(mode === 'v3' ? `<div class="sx-box">${strip(base)}</div>` : `<div class="st-box">${stack(base)}</div>`);
     const cell = $('.tableBox td').filter((_, el) => $(el).text().trim() === 'Price:');
     cell.next().text(usd(base));
     cell.parent().after(`<tr><td>Total Price:</td><td>${usd(base + FEE_TOTAL)}</td></tr>`);
