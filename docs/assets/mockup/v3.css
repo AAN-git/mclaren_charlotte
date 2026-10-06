@@ -51,8 +51,9 @@ body.mk-v3 .main .actionsHead.v3-head > .v3-band {
   font-size: clamp(30px, 2.9vw, 44px);
   font-weight: 700;
   line-height: 1.08;
-  /* long model names wrap to a second line; anything longer ends in an ellipsis
-     instead of pushing the price stack */
+  /* two lines reserved whatever the name's length, so the band keeps one height;
+     long model names use the second line, anything longer ends in an ellipsis */
+  min-height: calc(2 * 1.08em);
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
