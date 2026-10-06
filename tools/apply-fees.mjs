@@ -157,6 +157,14 @@ function band(base, title, year, miles) {
 </div>`;
 }
 
+// Make on the first line, model on the second (V3 card and VDP titles).
+const MAKES = ['Rolls-Royce', 'McLaren', 'Koenigsegg', 'Czinger', 'Mercedes-Benz'];
+function splitName(name) {
+  const n = name.trim().replace(/\s+/g, ' ');
+  const make = MAKES.find((m) => n.toLowerCase().startsWith(m.toLowerCase() + ' ')) || n.split(' ')[0];
+  return { make: n.slice(0, make.length), model: n.slice(make.length).trim() };
+}
+
 function stackPopover(base) {
   const id = `fx-pop-${++uid}`;
   return {
@@ -262,6 +270,10 @@ async function buildStackPages(mode) {
       n++;
     });
     if (mode === 'v3') {
+      $('.car-col .titleBox h2').each((_, el) => {
+        const { make, model } = splitName($(el).text());
+        $(el).html(`<span class="t-make">${make}</span><span class="t-model">${model}</span>`);
+      });
       // Save: the theme's blue PNG plus becomes an orange outline plus, matching Compare / Send to phone
       $('.car-col .pin > div:not(.active) img').replaceWith('<svg class="mk-plus" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v12M2 8h12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>');
     }
@@ -281,7 +293,7 @@ async function buildStackPages(mode) {
       const name = head.find('h1').text().trim().replace(/^McLaren\s+/i, '');
       const year = head.find('.year').text().replace(/\D+/g, '');
       const miles = head.find('.milleage').text().replace(/[^\d,]/g, '');
-      head.addClass('v3-head').html(band(base, `McLAREN ${name.toUpperCase()}`, year, miles));
+      head.addClass('v3-head').html(band(base, `<span class="v3-make">McLAREN</span><span class="v3-model">${name.toUpperCase()}</span>`, year, miles));
     } else {
       head.append(`<div class="st-box">${stack(base)}</div>`);
     }

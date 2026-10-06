@@ -185,3 +185,10 @@ body.mk-v3.inventory .inventory-section .car-col .vehicle .titleBox h2 {
   text-wrap: balance;
   margin: 0;
 }
+
+/* Titles in two lines: make on the first, model on the second (SRP cards and VDP) */
+body.mk-v3.inventory .inventory-section .car-col .vehicle .titleBox h2 { display: block; -webkit-line-clamp: unset; line-clamp: none; }
+body.mk-v3 .car-col .titleBox .t-make,
+body.mk-v3 .car-col .titleBox .t-model { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mk-v3 .main .actionsHead .v3-title { display: block; -webkit-line-clamp: unset; line-clamp: none; min-height: 0; }
+.v3-make, .v3-model { display: block; }
