@@ -10,6 +10,10 @@
   --mcl-papaya: #ff8000;
   --mcl-colnbrook: #dcdad4;
   --mcl-mist: #f0f0f0;
+  --mcl-black: #000000;
+  /* panel colour for the price blocks: Black sits with the site's dark greys, where
+     Midnight read as a foreign blue (Papaya 8.3:1, Colnbrook 15:1, white 21:1 on it) */
+  --v3-panel: var(--mcl-black);
 }
 
 /* The theme styles every direct child of .actionsHead (inline-block, Knockout caps,
@@ -32,7 +36,7 @@ body.mk-v3 .main .actionsHead.v3-head > .v3-band {
   column-gap: 64px;
   padding: 44px 48px 28px;
   vertical-align: top;
-  background: var(--mcl-midnight);
+  background: var(--v3-panel);
   color: #fff;
   font-family: var(--fx-text);
   text-transform: none;
@@ -56,7 +60,7 @@ body.mk-v3 .main .actionsHead.v3-head > .v3-band {
   margin: 12px 0 0;
   font-size: 20px;
   line-height: 1.3;
-  color: var(--mcl-colnbrook);   /* 13.6:1 on Midnight */
+  color: var(--mcl-colnbrook);   /* 15:1 on Black */
 }
 .v3-sub span { margin: 0 6px; }
 
@@ -89,7 +93,7 @@ body.mk-v3 .main .actionsHead.v3-head > .v3-band {
   font-size: 36px;
   font-weight: 700;
   line-height: 1;
-  color: var(--mcl-papaya);       /* 7.6:1 on Midnight */
+  color: var(--mcl-papaya);       /* 8.3:1 on Black */
 }
 
 /* ---- optional products + note -------------------------------------------------- */
@@ -131,12 +135,12 @@ body.mk-v3 .main .actionsHead.v3-head > .v3-band {
    (Midnight panel, Colnbrook labels, white figures, Papaya total) ------------------ */
 body.mk-v3 .car-col .details > .st-card {
   --st-ink: #fff;
-  --st-muted: var(--mcl-colnbrook);   /* 13.6:1 on Midnight */
+  --st-muted: var(--mcl-colnbrook);   /* 15:1 on Black */
   --st-rule: rgba(255, 255, 255, .22);
-  background: var(--mcl-midnight);
+  background: var(--v3-panel);
   border-bottom: 0;
 }
-body.mk-v3 .car-col .st-card .st-row--total .st-val { color: var(--mcl-papaya); }  /* 7.6:1 */
+body.mk-v3 .car-col .st-card .st-row--total .st-val { color: var(--mcl-papaya); }  /* 8.3:1 on Black */
 body.mk-v3 .car-col .st-card .st-sub { color: #fff; }
 
 /* SRP V3: the disclaimer closes the price block in each card */
