@@ -136,7 +136,7 @@ function strip(base) {
 // V3 VDP: a Midnight band above the gallery (Alex's reference, 6 Oct 2026):
 // name and year/miles left, the price stack right, optional products and a
 // one-line note beneath.
-const V3_NOTE = 'Excludes taxes, tags, title and registration. Optional products are additional.';
+const V3_NOTE = DISCLAIMER; // the dealer did not ask to drop the disclaimer: V3 keeps the full text
 function band(base, title, year, miles) {
   const row = (l, v, c = '') => `<div class="v3-row ${c}"><dt>${l}</dt><dd>${v}</dd></div>`;
   return `
@@ -253,7 +253,7 @@ async function buildStackPages(mode) {
         // V3: no hover, no click: the stack sits open in the card (dealer's reference, 6 Oct 2026)
         const mini = $(el).parent();
         $(el).remove();
-        mini.after(stack(base, { plus: true, legal: false, cls: 'st-card' }));
+        mini.after(stack(base, { plus: true, legal: true, cls: 'st-card' }));
       } else {
         $(el).text(`Total Price: ${usd(base + FEE_TOTAL)}`);
         const p = stackPopover(base);

@@ -103,7 +103,7 @@ body.mk-v3 .main .actionsHead.v3-head > .v3-band {
 .v3-opt strong { font-weight: 700; color: #fff; margin: 0 10px 0 0; padding: 0; }
 .v3-optitem { white-space: nowrap; }
 .v3-dot { margin: 0 6px; color: var(--mcl-colnbrook); }
-.v3-note { margin: 8px 0 0; font-size: 14px; line-height: 1.45; color: var(--mcl-colnbrook); }
+.v3-note { max-width: 80ch; margin: 8px 0 0; font-size: 14px; line-height: 1.45; color: var(--mcl-colnbrook); }
 
 /* the gallery sits directly under the band */
 .mk-v3 .main .actionsHead.v3-head + * { margin-top: 0; }
@@ -138,3 +138,6 @@ body.mk-v3 .car-col .details > .st-card {
 }
 body.mk-v3 .car-col .st-card .st-row--total .st-val { color: var(--mcl-papaya); }  /* 7.6:1 */
 body.mk-v3 .car-col .st-card .st-sub { color: #fff; }
+
+/* SRP V3: the disclaimer closes the price block in each card */
+body.mk-v3 .car-col .st-card .st-legal { margin-top: var(--fx-s3); padding-top: var(--fx-s3); border-top: 1px solid rgba(255, 255, 255, .22); font-size: 14px; color: var(--mcl-colnbrook); }
