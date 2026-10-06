@@ -4,6 +4,7 @@
 //   V2, the dealer's "price stacking" format (Price / fees / Total Price / Optional):
 //   docs/current-srp.html -> docs/srp-v2.html (Total Price on every card + stack in a popover)
 //   docs/current-vdp.html -> docs/vdp-v2.html (stack always visible under the title)
+//   V3: srp-v3.html / vdp-v3.html, a copy of V2 to take the next round of changes
 // Safe to re-run.
 //
 // usage: node tools/apply-fees.mjs
@@ -36,6 +37,7 @@ const PAGES = {
   current: { srp: 'current-srp.html', vdp: 'current-vdp.html' },
   v1: { srp: 'srp.html', vdp: 'vdp.html' },
   v2: { srp: 'srp-v2.html', vdp: 'vdp-v2.html' },
+  v3: { srp: 'srp-v3.html', vdp: 'vdp-v3.html' },
 };
 
 function chrome($, page, mode) {
@@ -192,38 +194,44 @@ for (const page of ['srp', 'vdp']) {
   console.log('vdp:', usd(base), '->', total);
 }
 
-// ---- SRP V2 -------------------------------------------------------------------
-{
-  const $ = await load('current-srp.html');
-  let n = 0;
-  $('.miniInf .price').each((_, el) => {
-    const base = parse($(el).text());
-    if (base == null) return;
-    $(el).text(`Total Price: ${usd(base + FEE_TOTAL)}`);
-    const p = stackPopover(base);
-    $(el).parent().addClass('fx fx-srp').append(`<p class="fx-srp-row">${p.trigger}</p>${p.pop}`);
-    n++;
-  });
-  $('body').addClass('mk-v2');
-  chrome($, 'srp', 'v2');
-  await fs.writeFile('docs/srp-v2.html', $.html());
-  console.log('srp-v2:', n, 'cards');
+// ---- SRP / VDP stack pages (V2, and V3 which starts as a copy of V2) ----------
+// V3 pages carry both body classes, so they inherit V2's styles and V3-only
+// changes can be scoped to .mk-v3.
+async function buildStackPages(mode) {
+  const cls = mode === 'v2' ? 'mk-v2' : `mk-v2 mk-${mode}`;
+  {
+    const $ = await load('current-srp.html');
+    let n = 0;
+    $('.miniInf .price').each((_, el) => {
+      const base = parse($(el).text());
+      if (base == null) return;
+      $(el).text(`Total Price: ${usd(base + FEE_TOTAL)}`);
+      const p = stackPopover(base);
+      $(el).parent().addClass('fx fx-srp').append(`<p class="fx-srp-row">${p.trigger}</p>${p.pop}`);
+      n++;
+    });
+    $('body').addClass(cls);
+    chrome($, 'srp', mode);
+    await fs.writeFile(`docs/${PAGES[mode].srp}`, $.html());
+    console.log(`srp-${mode}:`, n, 'cards');
+  }
+  {
+    const $ = await load('current-vdp.html');
+    const head = $('.actionsHead');
+    const box = head.find('.priceBox');
+    const base = parse(box.text());
+    // title, then Year / Mileage, then the stack as its own block
+    box.remove();
+    head.append(`<div class="st-box">${stack(base)}</div>`);
+    const cell = $('.tableBox td').filter((_, el) => $(el).text().trim() === 'Price:');
+    cell.next().text(usd(base));
+    cell.parent().after(`<tr><td>Total Price:</td><td>${usd(base + FEE_TOTAL)}</td></tr>`);
+    $('body').addClass(cls);
+    chrome($, 'vdp', mode);
+    await fs.writeFile(`docs/${PAGES[mode].vdp}`, $.html());
+    console.log(`vdp-${mode}:`, usd(base), '+ fees =', usd(base + FEE_TOTAL));
+  }
 }
 
-// ---- VDP V2 -------------------------------------------------------------------
-{
-  const $ = await load('current-vdp.html');
-  const head = $('.actionsHead');
-  const box = head.find('.priceBox');
-  const base = parse(box.text());
-  // title, then Year / Mileage, then the stack as its own block
-  box.remove();
-  head.append(`<div class="st-box">${stack(base)}</div>`);
-  const cell = $('.tableBox td').filter((_, el) => $(el).text().trim() === 'Price:');
-  cell.next().text(usd(base));
-  cell.parent().after(`<tr><td>Total Price:</td><td>${usd(base + FEE_TOTAL)}</td></tr>`);
-  $('body').addClass('mk-v2');
-  chrome($, 'vdp', 'v2');
-  await fs.writeFile('docs/vdp-v2.html', $.html());
-  console.log('vdp-v2:', usd(base), '+ fees =', usd(base + FEE_TOTAL));
-}
+await buildStackPages('v2');
+await buildStackPages('v3');
