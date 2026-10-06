@@ -161,3 +161,26 @@ body.mk-v3 .car-col .actions .pin .mk-plus {
   height: 15px;
   color: #ffa300;
 }
+
+/* SRP V3: card titles may take two lines (the theme cut long names with an ellipsis,
+   e.g. "Rolls-Royce Black Badge Cullin…"); every card reserves two lines so the grid
+   stays even, and one-line names sit centred in that space */
+body.mk-v3.inventory .inventory-section .car-col .vehicle .titleBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(2 * 1.2 * 19px + 20px);
+  box-sizing: border-box;
+}
+body.mk-v3.inventory .inventory-section .car-col .vehicle .titleBox h2 {
+  white-space: normal;
+  text-overflow: clip;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  text-wrap: balance;
+  margin: 0;
+}
