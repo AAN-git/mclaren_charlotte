@@ -161,6 +161,3 @@ body.mk-v3 .car-col .actions .pin .mk-plus {
   height: 15px;
   color: #ffa300;
 }
-
-/* VDP V3: optional-products line in caps */
-body.mk-v3 .v3-opt { text-transform: uppercase; letter-spacing: .04em; font-size: 15px; }
