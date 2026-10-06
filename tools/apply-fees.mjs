@@ -52,6 +52,7 @@ function chrome($, page, mode) {
   $('.mk-switch, link[href*="assets/mockup/"], script[src*="assets/mockup/"]').remove();
   $('head').append(`<link rel="stylesheet" href="assets/mockup/snapshot.css?v=${V}">\n<link rel="stylesheet" href="assets/mockup/brand-type.css?v=${V}">\n<link rel="stylesheet" href="assets/mockup/fees.css?v=${V}">\n`);
   // no Current/Proposed switch: the links go to the dealer as plain pages
+  if (mode === 'v3') $('head').append(`<link rel="stylesheet" href="assets/mockup/v3.css?v=${V}">\n`);
   if (proposed) {
     $('body').append(`<script src="assets/mockup/fees.js?v=${V}"></script>\n`);
     $('.logoBox .logo img[src*="logo_update"]').attr('src', 'assets/mockup/logo-new.svg').addClass('mk-logo-new');
@@ -129,6 +130,30 @@ function strip(base) {
   </dl>
   <p class="sx-opt"><span class="sx-opt__label">Optional</span> ${V2_OPTIONAL.map((o) => `${o.label} <span class="sx-num">${usd(o.amount)}</span>`).join(' <span class="sx-dot" aria-hidden="true">·</span> ')}</p>
   <p class="sx-legal">${DISCLAIMER}</p>
+</div>`;
+}
+
+// V3 VDP: a Midnight band above the gallery (Alex's reference, 6 Oct 2026):
+// name and year/miles left, the price stack right, optional products and a
+// one-line note beneath.
+const V3_NOTE = 'Excludes taxes, tags, title and registration. Optional products are additional.';
+function band(base, title, year, miles) {
+  const row = (l, v, c = '') => `<div class="v3-row ${c}"><dt>${l}</dt><dd>${v}</dd></div>`;
+  return `
+<div class="v3-band">
+  <div class="v3-id">
+    <h1 class="v3-title">${title}</h1>
+    <p class="v3-sub">${year} <span aria-hidden="true">·</span> ${miles} miles</p>
+  </div>
+  <dl class="v3-stack">
+    ${row('Vehicle price', usd(base))}
+    ${V2_FEES.map((f) => row(f.label, '+' + usd(f.amount))).join('\n    ')}
+    ${row('Total price', usd(base + FEE_TOTAL), 'v3-total')}
+  </dl>
+  <div class="v3-foot">
+    <p class="v3-opt"><strong>Optional products:</strong> ${V2_OPTIONAL.map((o) => `<span class="v3-optitem">${o.label} ${usd(o.amount)}</span>`).join(' <span class="v3-dot" aria-hidden="true">·</span> ')}</p>
+    <p class="v3-note">${V3_NOTE}</p>
+  </div>
 </div>`;
 }
 
@@ -248,7 +273,14 @@ async function buildStackPages(mode) {
     const base = parse(box.text());
     // title, then Year / Mileage, then the stack as its own block
     box.remove();
-    head.append(mode === 'v3' ? `<div class="sx-box">${strip(base)}</div>` : `<div class="st-box">${stack(base)}</div>`);
+    if (mode === 'v3') {
+      const name = head.find('h1').text().trim().replace(/^McLaren\s+/i, '');
+      const year = head.find('.year').text().replace(/\D+/g, '');
+      const miles = head.find('.milleage').text().replace(/[^\d,]/g, '');
+      head.addClass('v3-head').html(band(base, `McLAREN ${name.toUpperCase()}`, year, miles));
+    } else {
+      head.append(`<div class="st-box">${stack(base)}</div>`);
+    }
     const cell = $('.tableBox td').filter((_, el) => $(el).text().trim() === 'Price:');
     cell.next().text(usd(base));
     cell.parent().after(`<tr><td>Total Price:</td><td>${usd(base + FEE_TOTAL)}</td></tr>`);
