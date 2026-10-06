@@ -261,6 +261,10 @@ async function buildStackPages(mode) {
       }
       n++;
     });
+    if (mode === 'v3') {
+      // Save: the theme's blue PNG plus becomes an orange outline plus, matching Compare / Send to phone
+      $('.car-col .pin > div:not(.active) img').replaceWith('<svg class="mk-plus" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v12M2 8h12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>');
+    }
     $('body').addClass(cls);
     chrome($, 'srp', mode);
     await fs.writeFile(`docs/${PAGES[mode].srp}`, $.html());

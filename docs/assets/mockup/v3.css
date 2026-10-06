@@ -152,3 +152,12 @@ body.mk-v3 .car-col .st-card .st-sub { color: #fff; }
 
 /* SRP V3: the disclaimer closes the price block in each card */
 body.mk-v3 .car-col .st-card .st-legal { margin-top: var(--fx-s3); padding-top: var(--fx-s3); border-top: 1px solid rgba(255, 255, 255, .22); font-size: 14px; color: var(--mcl-colnbrook); }
+
+/* SRP V3: Save icon in the same orange as the Compare box and Send-to-phone icon */
+body.mk-v3 .car-col .actions .pin .mk-plus {
+  display: inline-block;
+  vertical-align: middle;
+  width: 15px;
+  height: 15px;
+  color: #ffa300;
+}
